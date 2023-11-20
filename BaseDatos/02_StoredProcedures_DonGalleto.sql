@@ -255,3 +255,156 @@ BEGIN
 	SET var_idCrearProducto = LAST_INSERT_ID();
 END $$
 DELIMITER ;
+
+DROP PROCEDURE IF EXISTS actualizarCrearProducto;
+DELIMITER $$
+CREATE PROCEDURE actualizarCrearProducto(
+										IN	var_idCrearProducto		INT,		-- 1
+										IN	var_porcion				DOUBLE,		-- 2
+										IN	var_idProducto			INT,		-- 3
+										IN	var_idMedida			INT,		-- 4
+										IN	var_idMateriaPrima		INT			-- 5
+)
+BEGIN
+	UPDATE	crear_producto
+    SET		porcion = var_porcion, idProducto = var_idProducto,
+			idMedida = var_idMedida, idMateriaPrima = var_idMateriaPrima
+	WHERE	idCrearProducto = var_idCrearProducto;
+END $$
+DELIMITER ;
+
+-- FIN PROCEDURES CREAR PRODUCTO --
+
+-- INICIO PROCEDURES Venta: INSERTAR, ACTUALIZAR --
+
+DROP PROCEDURE IF EXISTS insertarVenta;
+DELIMITER $$
+CREATE PROCEDURE insertarVenta(
+								IN	var_fechaVenta		VARCHAR(50),		-- 1
+								IN	var_total			DOUBLE,				-- 2
+
+								OUT	var_idVenta			INT					-- 3
+)
+BEGIN
+	INSERT INTO venta(fechaVenta, total)
+			   VALUES(IFNULL(STR_TO_DATE(var_fechaVenta, '%d/%m/%Y'), CURRENT_TIMESTAMP), var_total);
+
+	SET var_idVenta = LAST_INSERT_ID();
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS actualizarVenta;
+DELIMITER $$
+CREATE PROCEDURE actualizarVenta(
+								IN	var_idVenta			INT,				-- 1
+								IN	var_fechaVenta		VARCHAR(50),		-- 2
+								IN	var_total			DOUBLE				-- 3
+)
+BEGIN
+	UPDATE	venta
+    SET		fechaVenta = STR_TO_DATE(var_fechaVenta, '%d/%m/%Y'), total = var_total
+    WHERE	idVenta = var_idVenta;
+END $$
+DELIMITER ;
+
+-- FIN PROCEDURES Venta --
+
+-- INICIO PROCEDURES Detalle Venta: INSERTAR, ACTUALIZAR --
+
+DROP PROCEDURE IF EXISTS insertarDetalleVenta;
+DELIMITER $$
+CREATE PROCEDURE insertarDetalleVenta(
+										IN	var_cantidad			DOUBLE,		-- 1
+										IN	var_subtotal			DOUBLE,		-- 2
+										IN	var_idVenta				INT,		-- 3
+										IN	var_idProducto			INT,		-- 4
+										IN	var_idMedida			INT,		-- 5
+
+										OUT	var_idDetalleVenta		INT			-- 6
+)
+BEGIN
+	INSERT INTO detalle_venta(cantidad, subtotal, idVenta, idProducto, idMedida)
+					   VALUES(var_cantidad, var_subtotal, var_idVenta, var_idProducto, var_idMedida);
+
+	SET var_idDetalleVenta = LAST_INSERT_ID();
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS actualizarDetalleVenta;
+DELIMITER $$
+CREATE PROCEDURE actualizarDetalleVenta(
+										IN	var_idDetalleVenta		INT,		-- 1
+										IN	var_cantidad			DOUBLE,		-- 2
+										IN	var_subtotal			DOUBLE,		-- 3
+										IN	var_idVenta				INT,		-- 4
+										IN	var_idProducto			INT,		-- 5
+										IN	var_idMedida			INT			-- 6
+)
+BEGIN
+	UPDATE	detalle_venta
+    SET		cantidad = var_cantidad, subtotal = var_subtotal, idVenta = var_idVenta,
+			idProducto = var_idProducto, idMedida = var_idMedida
+	WHERE	idDetalleVenta = var_idDetalleVenta;
+END $$
+DELIMITER ;
+
+-- FIN PROCEDURES Detalle Venta --
+
+-- INICIO PROCEDURES Movimiento: INSERTAR, ACTUALIZAR POR INGRESO Y ACTUALIZAR POR EGRESO --
+
+DROP PROCEDURE IF EXISTS insertarMovimiento;
+DELIMITER $$
+CREATE PROCEDURE insertarMovimiento(
+									IN	var_fechaMovimiento		VARCHAR(50),		-- 1
+									IN	var_tipoMovimiento		VARCHAR(45),		-- 2
+									IN	var_monto				DOUBLE,				-- 3
+									IN	var_idVenta				INT,				-- 4
+									IN	var_idMateriaPrima		INT,				-- 5
+
+									OUT	var_idMovimiento		INT					-- 6
+)
+BEGIN
+	INSERT INTO movimiento(fechaMovimiento,
+											tipoMovimiento, monto, idVenta, idMateriaPrima)
+					VALUES(IFNULL(STR_TO_DATE(var_fechaMovimiento, '%d/%m/%Y'), CURRENT_TIMESTAMP),
+											var_tipoMovimiento, var_monto, var_idVenta, var_idMateriaPrima);
+
+	SET	var_idMovimiento = LAST_INSERT_ID();
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS actualizarMovimientoIngreso;
+DELIMITER $$
+CREATE PROCEDURE actualizarMovimientoIngreso(
+										IN	var_fechaMovimiento		VARCHAR(50),		-- 1
+										IN	var_tipoMovimiento		VARCHAR(45),		-- 2
+										IN	var_monto				DOUBLE,				-- 3
+										IN	var_idVenta				INT,				-- 4
+										IN	var_idMateriaPrima		INT					-- 5
+)
+BEGIN
+	UPDATE	movimiento
+    SET		fechaMovimiento = STR_TO_DATE(var_fechaMovimiento, '%d/%m/%Y'), tipoMovimiento = var_tipoMovimiento, monto = var_monto,
+			idVenta = var_idVenta, idMateriaPrima = var_idMateriaPrima
+	WHERE	idVenta = var_idVenta;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS actualizarMovimientoEgreso;
+DELIMITER $$
+CREATE PROCEDURE actualizarMovimientoEgreso(
+										IN	var_fechaMovimiento		VARCHAR(50),		-- 1
+										IN	var_tipoMovimiento		VARCHAR(45),		-- 2
+										IN	var_monto				DOUBLE,				-- 3
+										IN	var_idVenta				INT,				-- 4
+										IN	var_idMateriaPrima		INT					-- 5
+)
+BEGIN
+	UPDATE	movimiento
+    SET		fechaMovimiento = STR_TO_DATE(var_fechaMovimiento, '%d/%m/%Y'), tipoMovimiento = var_tipoMovimiento, monto = var_monto,
+			idVenta = var_idVenta, idMateriaPrima = var_idMateriaPrima
+	WHERE	idMateriaPrima = var_idMateriaPrima;
+END $$
+DELIMITER ;
+
+-- FIN PROCEDURES Movimiento --

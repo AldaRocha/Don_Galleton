@@ -80,5 +80,9 @@ CREATE TABLE movimiento(
 	idMovimiento		INT NOT NULL PRIMARY KEY AUTO_INCREMENT,		-- 1
 	fechaMovimiento		DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,	-- 2
 	tipoMovimiento		VARCHAR(45) NOT NULL DEFAULT "",				-- 3
-	monto				DOUBLE NOT NULL DEFAULT 0.0						-- 4
+	monto				DOUBLE NOT NULL DEFAULT 0.0,					-- 4
+    idVenta				INT,											-- 5
+    idMateriaPrima		INT,											-- 6
+    CONSTRAINT movimiento_idVenta_fk FOREIGN KEY (idVenta) REFERENCES venta(idVenta),
+    CONSTRAINT movimiento_idMateriaPrima_fk FOREIGN KEY (idMateriaPrima) REFERENCES materia_prima(idMateriaPrima)
 );
