@@ -1,6 +1,6 @@
-//export function inicializar(){
-//    
-//}
+export function inicializar(){
+    console.log("Pantalla punto de venta cargada");
+}
 
 let moduloProducto;
 

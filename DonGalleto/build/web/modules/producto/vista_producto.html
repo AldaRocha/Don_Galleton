@@ -1,1 +1,94 @@
-<!-- Vista parcial de producto -->
+<div id="bodyTabla">
+    <div id="#containerProductos" style="width: -moz-available;">
+        <div class="table-container">
+            <table id="tblProductos" class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th id="tblCabecera">Nombre del producto</th>
+                        <th id="tblCabecera">
+                            <select name="medida" id="txtMedida">
+                                <option selected id="idOption" value="pieza">Piezas</option>
+                                <option id="idOption" value="caja1K">Caja de 1K</option>
+                                <option id="idOption" value="cajaMedioK">Caja de 1/2K</option>
+                            </select>
+                        </th>
+                        <th id="tblCabecera">Costo de producción por pieza</th>
+                        <th id="tblCabecera">Precio de venta por pieza</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>        
+        </div>
+        <!-- modal productos-->
+        <div class="modal fade" id="modalProductos" tabindex="-1" aria-labelledby="modalProductosLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content" id="modalProductos">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalProductoLabel"><i class="fa-solid fa-cookie-bite fa-lg" style="color: #826455;"></i> Agregar Galletas Horneadas</h1>
+                    </div>
+                    <form class="needs-validation" id="formDataProductos" name="formDataProductos" method="POST">
+                        <div class="modal-body" id="productoDetails">
+                        </div>
+                        <div class="container">
+                            <div class="row align-items-start">
+                                <div id="gelletaHorneada" class="col">
+                                    <label for="txtGalleta" class="form-label">¿Que galleta fue horneada?:</label>
+                                    <select id="txtGalleta" class="form-select" aria-label="Default select example">
+                                        <option selected>Elige la galleta</option>
+                                        <!-- Se crea de manera dinamica -->
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button id="btnGuardarProducto" type="button" class="btn btn-success">Agregar galletas horneadas</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- modal productos nuevos-->
+        <div class="modal fade" id="modalProductosNuevos" tabindex="-1" aria-labelledby="modalProductosNuevosLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content" id="modalProductosNuevos">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalProductoNuevosLabel"><i class="fa-solid fa-cookie-bite fa-lg" style="color: #826455;"></i> Agregar nueva galleta</h1>
+                    </div>
+                    <form class="needs-validation" id="formDataProductosNuevos" name="formDataProductosNuevos" method="POST">
+                        <div class="modal-body" id="productoDetails"></div>
+                        <div class="container">
+                            <div class="row align-items-start">
+                                <div id="gelletaHorneada" class="d-flex col">
+                                    <label id="lblNuevaGalleta" for="txtNuevaGalleta" class="form-label">Nombre de la galleta:</label>
+                                    <input type="text" id="txtNuevaGalleta" class="form-control" placeholder="Nombre de la galleta">
+                                </div>
+                                <div id="gelletaHorneada" class="d-flex col">
+                                    <label id="lblPrecioProdGalleta" for="txtNuevaGalleta" class="form-label">Precio de producción:</label>
+                                    <input type="text" id="txtPrecioProdGalleta" class="form-control" placeholder="Precio de producción">
+                                </div>
+                                <div id="gelletaHorneada" class="d-flex col" style="margin-left: 18% !important;">
+                                    <label id="lblPrecioVentaGalleta" for="txtNuevaGalleta" class="form-label">Precio de venta:</label>
+                                    <input type="text" id="txtPrecioVentaGalleta" class="form-control" placeholder="Precio de venta">
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button id="btnGuardarNuevoPermiso" type="button" class="btn btn-success">Guardar nueva galleta</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-container btnEnd">
+            <button class="btn btn-success" id="agregarGalletaNueva" data-bs-toggle="modal" data-bs-target="#modalProductosNuevos">Agregar nueva galleta</button>
+            <button class="btn btn-success" id="agregarGalletasHorneadas" data-bs-toggle="modal" data-bs-target="#modalProductos" >Agregar galletas horneadas</button>
+        </div>
+    </div>
+</div>

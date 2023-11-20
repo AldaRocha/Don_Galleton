@@ -194,8 +194,6 @@ li.paginate_button.previous:not(.disabled) a.page-link[data-dt-idx="previous"] {
     font-size: 14.5px;
 }
 
-#id
-
 .btnEnd{
     display: flex;
     justify-content: end;
