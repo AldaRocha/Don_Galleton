@@ -1,9 +1,11 @@
-export function inicializar(){
+let moduloProducto;
+let moduloEstadoDeCuenta;
+
+function inicializar(){
     console.log("Pantalla punto de venta cargada");
 }
 
-let moduloProducto;
-
+// Aqui van las funciones que mandan a llamar a las vistas solamente
 
 function cargarModuloProductos() {
     fetch("../../modules/producto/vista_producto.html")
@@ -26,4 +28,23 @@ function cargarModuloProductos() {
             );
 }
 
-// Aqui van las funciones que mandan a llamar a las vistas solamente
+function cargarModuloEstadoDeCuenta(){
+    fetch("../estadodecuenta/vista_estadodecuenta.html")
+            .then(
+                function(response){
+                    return response.text();
+                }
+            )
+                .then(
+                    function(html){
+                        document.getElementById("contenedorPrincipal").innerHTML = html;
+                        import("../estadodecuenta/estadodecuentaController.js")
+                                .then(
+                                    function(controller){
+                                        moduloEstadoDeCuenta = controller;
+                                        moduloEstadoDeCuenta.inicializar();
+                                    }
+                                );
+                    }
+                );
+}
