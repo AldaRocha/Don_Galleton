@@ -22,11 +22,11 @@ CALL actualizarUsuario(5, "DonGalleto", MD5("DonGalleto"));
 
 SELECT * FROM v_usuario;
 
-CALL desActivarUsuario(3);
+CALL desActivarUsuario(1);
 
 SELECT * FROM usuario;
 
-CALL activarUsuario(3);
+CALL activarUsuario(1);
 
 SELECT * FROM v_usuario;
 

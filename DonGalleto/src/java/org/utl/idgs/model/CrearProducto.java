@@ -3,7 +3,7 @@ package org.utl.idgs.model;
 
 /**
  *
- * @author ALM-Francisco
+ * @author Alda
  */
 public class CrearProducto {
     private int idCrearProducto;

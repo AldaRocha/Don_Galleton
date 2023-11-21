@@ -1,8 +1,6 @@
 
 package org.utl.idgs.model;
 
-import java.util.Date;
-
 /**
  *
  * @author Alda
@@ -10,15 +8,15 @@ import java.util.Date;
 public class MateriaPrima {
     private int idMateriaPrima;
     private String nombreMateria;
-    private Date fechaCompra;
-    private Date fechaVencimiento;
+    private String fechaCompra;
+    private String fechaVencimiento;
     private int estatus;
     private float cantidadExistentes;
     private float precioCompra;
     private int porcentaje;
     private Medida medida;
 
-    public MateriaPrima(int idMateriaPrima, String nombreMateria, Date fechaCompra, Date fechaVencimiento, int estatus, float cantidadExistentes, float precioCompra, int porcentaje, Medida medida) {
+    public MateriaPrima(int idMateriaPrima, String nombreMateria, String fechaCompra, String fechaVencimiento, int estatus, float cantidadExistentes, float precioCompra, int porcentaje, Medida medida) {
         this.idMateriaPrima = idMateriaPrima;
         this.nombreMateria = nombreMateria;
         this.fechaCompra = fechaCompra;
@@ -49,19 +47,19 @@ public class MateriaPrima {
         this.nombreMateria = nombreMateria;
     }
 
-    public Date getFechaCompra() {
+    public String getFechaCompra() {
         return fechaCompra;
     }
 
-    public void setFechaCompra(Date fechaCompra) {
+    public void setFechaCompra(String fechaCompra) {
         this.fechaCompra = fechaCompra;
     }
 
-    public Date getFechaVencimiento() {
+    public String getFechaVencimiento() {
         return fechaVencimiento;
     }
 
-    public void setFechaVencimiento(Date fechaVencimiento) {
+    public void setFechaVencimiento(String fechaVencimiento) {
         this.fechaVencimiento = fechaVencimiento;
     }
 

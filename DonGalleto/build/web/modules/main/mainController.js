@@ -1,11 +1,21 @@
 let moduloProducto;
 let moduloEstadoDeCuenta;
+let moduloPuntoDeVenta;
+let moduloInventario;
 
 function inicializar(){
-    console.log("Pantalla punto de venta cargada");
+    cargarModuloPuntoDeVenta();
 }
 
 // Aqui van las funciones que mandan a llamar a las vistas solamente
+
+function mostrarCargando(){
+    $(".spinner-container").removeClass("d-none");
+}
+    
+function ocultarCargando(){
+    $(".spinner-container").addClass("d-none");
+}
 
 function cargarModuloProductos() {
     fetch("../../modules/producto/vista_producto.html")
@@ -48,3 +58,56 @@ function cargarModuloEstadoDeCuenta(){
                     }
                 );
 }
+
+function cargarModuloPuntoDeVenta(){
+    fetch("../puntodeventa/vista_puntodeventa.html")
+            .then(
+                function(response){
+                    return response.text();
+                }
+            )
+                .then(
+                    function(html){
+                        document.getElementById("contenedorPrincipal").innerHTML = html;
+                        import("../puntodeventa/puntodeventaController.js")
+                                .then(
+                                    function(controller){
+                                        moduloPuntoDeVenta = controller;
+                                        moduloPuntoDeVenta.inicializar();
+                                    }
+                                );
+                    }
+                );
+}
+
+function cargarModuloInventario(){
+    fetch("../inventario/vista_inventario.html")
+            .then(
+                function(response){
+                    return response.text();
+                }
+            )
+                .then(
+                    function(html){
+                        document.getElementById("contenedorPrincipal").innerHTML = html;
+                        import("../inventario/inventarioController.js")
+                                .then(
+                                    function(controller){
+                                        moduloInventario = controller;
+                                        moduloInventario.inicializar();
+                                    }
+                                );
+                    }
+                );
+}
+
+function cerrarSesion(){
+        mostrarCargando();
+        sessionStorage.removeItem('currentUser');
+        Swal.fire('', "Sesion cerrada con exito.", 'success');
+        window.location.replace("../../index.html");
+}
+
+$("#cerrarSesion").click(function(){
+    cerrarSesion();
+});

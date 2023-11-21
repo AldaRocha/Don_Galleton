@@ -1,19 +1,17 @@
 
 package org.utl.idgs.model;
 
-import java.util.Date;
-
 /**
  *
  * @author Alda
  */
 public class Movimiento {
     private int idMovimiento;
-    private Date fechaMovimiento;
+    private String fechaMovimiento;
     private String tipoMovimiento;
     private float monto;
 
-    public Movimiento(int idMovimiento, Date fechaMovimiento, String tipoMovimiento, float monto) {
+    public Movimiento(int idMovimiento, String fechaMovimiento, String tipoMovimiento, float monto) {
         this.idMovimiento = idMovimiento;
         this.fechaMovimiento = fechaMovimiento;
         this.tipoMovimiento = tipoMovimiento;
@@ -31,11 +29,11 @@ public class Movimiento {
         this.idMovimiento = idMovimiento;
     }
 
-    public Date getFechaMovimiento() {
+    public String getFechaMovimiento() {
         return fechaMovimiento;
     }
 
-    public void setFechaMovimiento(Date fechaMovimiento) {
+    public void setFechaMovimiento(String fechaMovimiento) {
         this.fechaMovimiento = fechaMovimiento;
     }
 

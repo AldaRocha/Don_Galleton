@@ -15,7 +15,7 @@ USE don_galleto;
 CREATE TABLE usuario(
 	idUsuario			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,		-- 1
     nombreUsuario		VARCHAR(45) NOT NULL DEFAULT "",				-- 2
-    contrasenia			VARCHAR(45) NOT NULL DEFAULT "",				-- 3
+    contrasenia			VARCHAR(80) NOT NULL DEFAULT "",				-- 3
     estatus				INT NOT NULL DEFAULT 1							-- 4
 );
 

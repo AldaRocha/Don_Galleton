@@ -33,9 +33,9 @@
                     </a>
                 </li>
                 <li>
-                    <a>
+                    <a onclick="cargarModuloPuntoDeVenta();">
                         <i class="fas fa-home" style="color: #3f0d08;"></i>
-                        <span class="nav-item">Home</span>
+                        <span class="nav-item">Punto de venta</span>
                     </a>
                 </li>
                 <li>
@@ -51,13 +51,13 @@
                     </a>
                 </li>
                 <li>
-                    <a>
+                    <a onclick="cargarModuloInventario();">
                         <i class="fas fa-cubes" style="color: #2f0d08;"></i>
                         <span class="nav-item">Inventario</span>
                     </a>
                 </li>
                 <li>
-                    <a class="logout">
+                    <a class="logout" id="cerrarSesion">
                         <i class="fas fa-sign-out-alt" style="color: #2f0d08;"></i>
                         <span class="nav-item">Salir</span>
                     </a>
@@ -66,10 +66,20 @@
         </nav>
         <div>
             <div class="container-fluid" id="contenedorPrincipal">
+                <!-- INICIO DIV QUE CONTIENE EL "CARGANDO" -->
+                <div class="d-flex justify-content-center spinner-container d-none mt-3">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">
+                            Loading...
+                        </span>
+                    </div>
+                </div>
+                <!-- FIN DEL DIV QUE CONTIENE EL "CARGANDO" -->
             </div>
         </div>
         <script src="../../styles/js/bootstrap.bundle.js"></script>
         <script src="mainController.js"></script>
+        <script src="../../js/loginController.js"></script>
         <script src="../../styles/sweetalert2/sweetalert2.all.min.js"></script>
     </body>
 </html>

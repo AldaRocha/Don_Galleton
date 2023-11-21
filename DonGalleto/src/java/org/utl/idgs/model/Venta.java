@@ -1,18 +1,16 @@
 
 package org.utl.idgs.model;
 
-import java.util.Date;
-
 /**
  *
  * @author Alda
  */
 public class Venta {
     private int idVenta;
-    private Date fechaVenta;
+    private String fechaVenta;
     private float total;
 
-    public Venta(int idVenta, Date fechaVenta, float total) {
+    public Venta(int idVenta, String fechaVenta, float total) {
         this.idVenta = idVenta;
         this.fechaVenta = fechaVenta;
         this.total = total;
@@ -29,11 +27,11 @@ public class Venta {
         this.idVenta = idVenta;
     }
 
-    public Date getFechaVenta() {
+    public String getFechaVenta() {
         return fechaVenta;
     }
 
-    public void setFechaVenta(Date fechaVenta) {
+    public void setFechaVenta(String fechaVenta) {
         this.fechaVenta = fechaVenta;
     }
 
