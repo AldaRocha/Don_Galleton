@@ -161,6 +161,7 @@ a.page-link[tabindex="0"] {
     border-color: lightgrey !important;
     cursor: pointer !important;
     width: 100px !important;
+    text-align: center;
 }
 
 li.paginate_button.next:not(.disabled) a.page-link[data-dt-idx="next"] {
@@ -201,4 +202,8 @@ li.paginate_button.previous:not(.disabled) a.page-link[data-dt-idx="previous"] {
 
 #agregarGalletaNueva{
     margin-right: 10px;
+}
+
+#tblProductos{
+    margin-top: 30px;
 }
