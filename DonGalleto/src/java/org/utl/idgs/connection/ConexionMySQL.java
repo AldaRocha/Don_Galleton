@@ -12,9 +12,11 @@ public class ConexionMySQL {
     Connection conn;
     
     public Connection open(){
-        String user = "";
-        String password = "";
-        String url = "";
+        String user = "root";
+        String password = "12345678";
+        String url = "jdbc:mysql://127.0.0.1:3306/don_galleto?useSSL=false&"
+               +"allowPublicKeyRetrieval=true&"
+                +"useUnicode=true&characterEncoding=utf-8";
         
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
