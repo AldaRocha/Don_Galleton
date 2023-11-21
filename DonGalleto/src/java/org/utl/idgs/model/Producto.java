@@ -8,21 +8,21 @@ package org.utl.idgs.model;
 public class Producto {
     private int idProducto;
     private String nombreProducto;
-    private float cantidadExistentes;
-    private float precioVenta;
-    private float precioProduccion;
+    private double cantidadExistentes;
+    private double precioVenta;
+    private double precioProduccion;
     private Medida medida;
 
-    public Producto(int idProducto, String nombreProducto, float cantidadExistentes, float precioVenta, float precioProduccion, Medida medida) {
+    public Producto() {
+    }
+
+    public Producto(int idProducto, String nombreProducto, double cantidadExistentes, double precioVenta, double precioProduccion, Medida medida) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.cantidadExistentes = cantidadExistentes;
         this.precioVenta = precioVenta;
         this.precioProduccion = precioProduccion;
         this.medida = medida;
-    }
-
-    public Producto() {
     }
 
     public int getIdProducto() {
@@ -41,27 +41,27 @@ public class Producto {
         this.nombreProducto = nombreProducto;
     }
 
-    public float getCantidadExistentes() {
+    public double getCantidadExistentes() {
         return cantidadExistentes;
     }
 
-    public void setCantidadExistentes(float cantidadExistentes) {
+    public void setCantidadExistentes(double cantidadExistentes) {
         this.cantidadExistentes = cantidadExistentes;
     }
 
-    public float getPrecioVenta() {
+    public double getPrecioVenta() {
         return precioVenta;
     }
 
-    public void setPrecioVenta(float precioVenta) {
+    public void setPrecioVenta(double precioVenta) {
         this.precioVenta = precioVenta;
     }
 
-    public float getPrecioProduccion() {
+    public double getPrecioProduccion() {
         return precioProduccion;
     }
 
-    public void setPrecioProduccion(float precioProduccion) {
+    public void setPrecioProduccion(double precioProduccion) {
         this.precioProduccion = precioProduccion;
     }
 
@@ -71,5 +71,10 @@ public class Producto {
 
     public void setMedida(Medida medida) {
         this.medida = medida;
+    }
+
+    @Override
+    public String toString() {
+        return "Producto{" + "idProducto=" + idProducto + ", nombreProducto=" + nombreProducto + ", cantidadExistentes=" + cantidadExistentes + ", precioVenta=" + precioVenta + ", precioProduccion=" + precioProduccion + ", medida=" + medida + '}';
     }
 }
