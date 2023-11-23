@@ -205,12 +205,13 @@ CREATE PROCEDURE insertarProducto(
 								IN	var_precioVenta				DOUBLE,				-- 3
 								IN	var_precioProduccion		DOUBLE,				-- 4
 								IN	var_idMedida				INT,				-- 5
+                                IN	var_fotografia				LONGTEXT,			-- 6
 
-                                OUT	var_idProducto				INT					-- 6
+                                OUT	var_idProducto				INT					-- 7
 )
 BEGIN
-	INSERT INTO producto(nombreProducto, cantidadExistentes, precioVenta, precioProduccion, idMedida)
-				  VALUES(var_nombreProducto, var_cantidadExistentes, var_precioVenta, var_precioProduccion, var_idMedida);
+	INSERT INTO producto(nombreProducto, cantidadExistentes, precioVenta, precioProduccion, idMedida, fotografia)
+				  VALUES(var_nombreProducto, var_cantidadExistentes, var_precioVenta, var_precioProduccion, var_idMedida, var_fotografia);
 
 	SET var_idProducto = LAST_INSERT_ID();
 END $$
@@ -224,12 +225,13 @@ CREATE PROCEDURE actualizarProducto(
 									IN	var_cantidadExistentes		DOUBLE,				-- 3
 									IN	var_precioVenta				DOUBLE,				-- 4
 									IN	var_precioProduccion		DOUBLE,				-- 5
-									IN	var_idMedida				INT					-- 6
+									IN	var_idMedida				INT,				-- 6
+                                    IN	var_fotografia				LONGTEXT			-- 7
 )
 BEGIN
 	UPDATE	producto
     SET		nombreProducto = var_nombreProducto, cantidadExistentes = var_cantidadExistentes, precioVenta = var_precioVenta,
-			precioProduccion = var_precioProduccion, idMedida = var_idMedida
+			precioProduccion = var_precioProduccion, idMedida = var_idMedida, fotografia = var_fotografia
 	WHERE	idProducto = var_idProducto;
 END $$
 DELIMITER ;

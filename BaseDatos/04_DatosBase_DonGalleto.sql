@@ -84,13 +84,13 @@ SELECT * FROM materia_prima;
 
 -- INICIO PRUEBA DE PROCEDURES Y VISTAS E INSERTAR DATOS BASE EN TABLA PRODUCTO --
 
-CALL insertarProducto("Chocolate", 100, 10.50, 5, 1, @out1);
-CALL insertarProducto("Vainilla", 150, 15.50, 8, 1, @out1);
-CALL insertarProducto("Chispas de choc", 200, 20, 10, 1, @out1);
+CALL insertarProducto("Chocolate", 100, 10.50, 5, 1, "", @out1);
+CALL insertarProducto("Vainilla", 150, 15.50, 8, 1, "", @out1);
+CALL insertarProducto("Chispas de choc", 200, 20, 10, 1, "", @out1);
 
 SELECT * FROM producto;
 
-CALL actualizarProducto(3, "Chispas de chocolate", 200, 20, 10, 1);
+CALL actualizarProducto(3, "Chispas de chocolate", 200, 20, 10, 1, "");
 
 SELECT * FROM v_producto;
 

@@ -61,8 +61,9 @@ CREATE VIEW v_producto AS
                 ,p.precioVenta				-- 4
                 ,p.precioProduccion			-- 5
                 ,p.idMedida					-- 6
+                ,p.fotografia				-- 7
 
-				,m.tipoMedida				-- 7
+				,m.tipoMedida				-- 8
     FROM		producto p
     INNER JOIN	medida m
     ON			p.idMedida = m.idMedida;
@@ -84,21 +85,22 @@ CREATE VIEW v_crear_producto AS
                 ,p.precioVenta													-- 8
                 ,p.precioProduccion												-- 9
                 ,p.idMedida AS idMedidaProducto									-- 10
+                ,p.fotografia													-- 11
 
-				,mp.tipoMedida AS tipoMedidaProducto							-- 11
+				,mp.tipoMedida AS tipoMedidaProducto							-- 12
 
-				,m.tipoMedida AS tipoMedidaCrearProducto						-- 12
+				,m.tipoMedida AS tipoMedidaCrearProducto						-- 13
 
-				,matpri.nombreMateria											-- 13
-                ,CONVERT(matpri.fechaCompra, CHAR) AS fechaCompra				-- 14
-                ,CONVERT(matpri.fechaVencimiento, CHAR) AS fechaVencimiento		-- 15
-                ,matpri.estatus													-- 16
-                ,matpri.cantidadExistentes AS cantidadExistentesMateriaPrima	-- 17
-                ,matpri.precioCompra											-- 18
-                ,matpri.porcentaje												-- 19
-                ,matpri.idMedida AS idMedidaMateriaPrima						-- 20
+				,matpri.nombreMateria											-- 14
+                ,CONVERT(matpri.fechaCompra, CHAR) AS fechaCompra				-- 15
+                ,CONVERT(matpri.fechaVencimiento, CHAR) AS fechaVencimiento		-- 16
+                ,matpri.estatus													-- 17
+                ,matpri.cantidadExistentes AS cantidadExistentesMateriaPrima	-- 18
+                ,matpri.precioCompra											-- 19
+                ,matpri.porcentaje												-- 20
+                ,matpri.idMedida AS idMedidaMateriaPrima						-- 21
 
-				,mmatpri.tipoMedida AS tipoMedidaMateriaPrima					-- 21
+				,mmatpri.tipoMedida AS tipoMedidaMateriaPrima					-- 22
     FROM		crear_producto cp
     INNER JOIN	producto p
     ON			cp.idProducto = p.idProducto
@@ -143,10 +145,11 @@ CREATE VIEW v_detalle_venta AS
                 ,p.precioVenta									-- 11
                 ,p.precioProduccion								-- 12
                 ,p.idMedida AS idMedidaProducto					-- 13
+                ,p.fotografia									-- 14
 
-				,mp.tipoMedida AS tipoMedidaProducto			-- 14
+				,mp.tipoMedida AS tipoMedidaProducto			-- 15
 
-				,m.tipoMedida AS tipoMedidaDetalleVenta			-- 15
+				,m.tipoMedida AS tipoMedidaDetalleVenta			-- 16
     FROM		detalle_venta dv
     INNER JOIN	venta v
     ON			dv.idVenta = v.idVenta

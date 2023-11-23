@@ -44,6 +44,7 @@ CREATE TABLE producto(
 	precioVenta			DOUBLE NOT NULL DEFAULT 0.0,					-- 4
 	precioProduccion	DOUBLE NOT NULL DEFAULT 0.0,					-- 5
 	idMedida			INT NOT NULL,									-- 6
+    fotografia			LONGTEXT,										-- 7
 	CONSTRAINT producto_idMedida_fk FOREIGN KEY (idMedida) REFERENCES medida(idMedida)
 );
 
