@@ -187,11 +187,11 @@ CREATE VIEW v_movimiento AS
 
 				,mmp.tipoMedida
     FROM		movimiento m
-    INNER JOIN	venta v
+    LEFT JOIN	venta v
     ON			m.idVenta = v.idVenta
-    INNER JOIN	materia_prima mp
+    LEFT JOIN	materia_prima mp
     ON			m.idMateriaPrima = mp.idMateriaPrima
-    INNER JOIN	medida mmp
+    LEFT JOIN	medida mmp
     ON			mp.idMedida = mmp.idMedida;
 
 -- FIN VISTA MOVIMIENTO --

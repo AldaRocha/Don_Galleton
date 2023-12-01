@@ -10,12 +10,16 @@ public class Movimiento {
     private String fechaMovimiento;
     private String tipoMovimiento;
     private float monto;
+    private Venta venta;
+    private MateriaPrima materiaPrima;
 
-    public Movimiento(int idMovimiento, String fechaMovimiento, String tipoMovimiento, float monto) {
+    public Movimiento(int idMovimiento, String fechaMovimiento, String tipoMovimiento, float monto, Venta venta, MateriaPrima materiaPrima) {
         this.idMovimiento = idMovimiento;
         this.fechaMovimiento = fechaMovimiento;
         this.tipoMovimiento = tipoMovimiento;
         this.monto = monto;
+        this.venta = venta;
+        this.materiaPrima = materiaPrima;
     }
 
     public Movimiento() {
@@ -51,5 +55,21 @@ public class Movimiento {
 
     public void setMonto(float monto) {
         this.monto = monto;
+    }
+
+    public Venta getVenta() {
+        return venta;
+    }
+
+    public void setVenta(Venta venta) {
+        this.venta = venta;
+    }
+
+    public MateriaPrima getMateriaPrima() {
+        return materiaPrima;
+    }
+
+    public void setMateriaPrima(MateriaPrima materiaPrima) {
+        this.materiaPrima = materiaPrima;
     }
 }
