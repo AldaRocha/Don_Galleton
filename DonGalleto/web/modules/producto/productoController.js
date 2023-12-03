@@ -151,8 +151,8 @@ export function agregarGalletaHorneada(){
 
                 document.getElementById("txtIdProducto").value = data.idProducto;
 
-                Swal.fire('', 'Datos actualizados correctamente', 'success');
-
+                Swal.fire('', 'Se han agregado las galletas horneadas correctamente', 'success');
+                getAll();
             });
 
 }
@@ -169,6 +169,7 @@ export function cargarTabla(data) {
     }
     $('#txtGalleta').append(fila);
     
+        $('#tblProductos').on('click', '.btnEliminar', deleteProducto);
     // Destruye la tabla
     if ($.fn.DataTable.isDataTable('#tblProductos')) {
         $('#tblProductos').DataTable().destroy();
@@ -181,7 +182,10 @@ export function cargarTabla(data) {
             <td>${data[i]['nombreProducto']}</td>
             <td>${data[i]['cantidadExistentes']}</td>
             <td>${data[i]['precioProduccion']}</td>
-            <td>${data[i]['precioVenta']}</td>`;
+            <td>${data[i]['precioVenta']}</td>
+            <td><button data-idproducto="${data[i]['idProducto']}" class="btnEliminar"><i class="fa-solid fa-trash" style="color: #c20003;"></i></button></td>
+            <td><button id="btnModificar"><i class="fa-solid fa-pen-to-square" style="color: #3d8bfa;"></i></button></td>`;
+
         $('#tblProductos tbody').append(fila);
     }
 
@@ -225,10 +229,67 @@ export function cargarTabla(data) {
     });
     
 
-
-
-
 };
+
+export function deleteProducto() {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {  
+            const idProducto = $(this).data('idproducto');
+            console.log(idProducto);
+            let datos = null;
+            let params = null;
+
+            let producto = new Object();
+            producto.idProducto = idProducto;
+            datos = {
+                datosProducto: JSON.stringify(producto)
+            };
+
+            params = new URLSearchParams(datos);
+
+            fetch("../../api/producto/delete",
+                    {method: "POST",
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+                        body: params
+                    })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(function (data)
+                    {
+                        if (data.exception != null)
+                        {
+                            Swal.fire('', "Error interno del servidor. Intente nuevamente más tarde", 'warning');
+                            return;
+                        }
+                        if (data.error != null)
+                        {
+                            alert(data.error);
+                            return;
+                        }
+                        if (data.errorperm != null)
+                        {
+                            Swal.fire('', "No tiene permiso para realizar esta operación.", 'warning');
+                        }
+                    });
+
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your file has been deleted.",
+                        icon: "success"
+                    });
+                    getAll();
+                }
+            }); 
+}
 
 function getAll(){
     let url = "../../api/producto/getAll";
