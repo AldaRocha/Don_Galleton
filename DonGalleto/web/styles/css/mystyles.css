@@ -135,13 +135,14 @@ nav:hover{
     border: none !important;
     font-weight: bold !important;
     background-color: transparent !important;
-    color: white !important;
+    //color: white !important;
 }
 
 #tblCabecera {
-    color: white !important;
-    background-color: #573B2F !important;
-    font-size: 13px !important;
+    //color: white !important;
+    color: #573B2F !important;
+    //background-color: #573B2F !important;
+    font-size: 14px !important;
 }
 
 #idOption {
@@ -206,4 +207,12 @@ li.paginate_button.previous:not(.disabled) a.page-link[data-dt-idx="previous"] {
 
 #tblProductos{
     margin-top: 30px;
+}
+
+label{
+    font-size: 14.5px !important;
+}
+
+.btnEliminar, #btnModificar{
+    background: transparent;
 }

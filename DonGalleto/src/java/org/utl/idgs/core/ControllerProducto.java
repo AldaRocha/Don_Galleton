@@ -67,6 +67,23 @@ public class ControllerProducto {
         cstmt.close();
         connMySQL.close();
     }
+        
+    public void eliminarProducto(int idProducto) throws Exception {
+
+    String sql = "DELETE FROM producto WHERE idProducto="+idProducto;
+    
+    ConexionMySQL connMySQL = new ConexionMySQL();
+
+    Connection conn = connMySQL.open();
+
+    PreparedStatement pstm = conn.prepareStatement(sql);
+
+     pstm.executeUpdate();
+
+    pstm.close();
+    connMySQL.close();
+
+    }
     
     public List<Producto> getAll(String filtro) throws Exception {
         String sql = "SELECT * FROM v_producto;" ;

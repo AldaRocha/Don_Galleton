@@ -82,6 +82,38 @@ public class RESTProducto {
         
     }
     
-    
+    @Path("delete")
+    @POST 
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response delete(@FormParam("datosProducto") @DefaultValue("") String datosProducto)
+    {
+        String out = null;
+        Gson gson = new Gson();
+        Producto p = null;
+        ControllerProducto cp = new ControllerProducto();
+        
+        try 
+        {
+            p = gson.fromJson(datosProducto, Producto.class);
+            cp.eliminarProducto(p.getIdProducto());
+            out = gson.toJson(p);
+        }
+        catch (JsonParseException jpe)
+        {
+            jpe.printStackTrace();
+            out = """
+                  {"exception":"Formato JSON de Datos Incorrectos."}
+                  """;
+        }
+        catch (Exception e) //Cualquier otra excpetion
+        {
+            e.printStackTrace();
+            out ="""
+                 {"exception":"%s"}
+                 """;
+            out = String.format(out, e.toString());
+        }
+        return Response.status(Response.Status.OK).entity(out).build();
+    }
     
 }
