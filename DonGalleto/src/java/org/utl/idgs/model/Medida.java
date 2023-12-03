@@ -32,4 +32,9 @@ public class Medida {
     public void setTipoMedida(String tipoMedida) {
         this.tipoMedida = tipoMedida;
     }
+
+    @Override
+    public String toString() {
+        return "Medida{" + "idMedida=" + idMedida + ", tipoMedida=" + tipoMedida + '}';
+    }
 }

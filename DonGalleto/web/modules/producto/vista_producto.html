@@ -82,12 +82,60 @@
                                     <label id="lblPrecioVentaGalleta" for="txtNuevaGalleta" class="form-label">Precio de venta:</label>
                                     <input type="text" id="txtPrecioVentaGalleta" class="form-control" placeholder="Precio de venta">
                                 </div>
-
+                                <div id="gelletaHorneada" class="d-flex col" style="margin-left: 6% !important;">
+                                    <input type="file" id="fotografiaInput" class="btn btn-primary" onchange="moduloProducto.convertirPDF();">
+                                    <textarea id="base64Output" class="col-lg-8" rows="10" cols="50" style="display: none;"></textarea>
+                                    <embed id="fotografia" src="" type="application/pdf" width="100px" height="100px">
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             <button id="btnGuardarNuevoPermiso" type="button" class="btn btn-success" onclick="moduloProducto.guardarGalleta()">Guardar nueva galleta</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+     
+                <!-- modal editar -->
+        <div class="modal fade" id="modalProductosEditar" tabindex="-1" aria-labelledby="modalProductosEditarsLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content" id="modalProductosEditar">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalProductoEditarLabel"><i class="fa-solid fa-cookie-bite fa-lg" style="color: #826455;"></i> Editar galleta</h1>
+                    </div>
+                    <form class="needs-validation" id="formDataProductosEditar" name="formDataProductosEditar" method="POST">
+                        <div class="modal-body" id="productoDetails"></div>
+                        <div class="container">
+                            <div class="row align-items-start">
+                                <input type="text" id="txtIdProductoEditar" class="form-control" style="display: none">
+                                <div id="gelletaHorneada" class="d-flex col">
+                                    <label id="lblNuevaGalleta" for="txtNuevaGalleta" class="form-label">Nombre de la galleta:</label>
+                                    <input type="text" id="txtEditarGalleta" class="form-control" placeholder="Nombre de la galleta">
+                                </div>
+                                <div id="gelletaHorneada" class="d-flex col">
+                                    <label id="lblNuevaGalleta" for="txtNuevaGalleta" class="form-label">Cantidad Existentes:</label>
+                                    <input type="text" id="txtCantidadExisEditar" class="form-control" placeholder="Nombre de la galleta">
+                                </div>
+                                <div id="gelletaHorneada" class="d-flex col">
+                                    <label id="lblPrecioProdGalleta" for="txtNuevaGalleta" class="form-label">Precio de producción:</label>
+                                    <input type="text" id="txtPrecioProdEditar" class="form-control" placeholder="Precio de producción">
+                                </div>
+                                <div id="gelletaHorneada" class="d-flex col" style="margin-left: 18% !important;">
+                                    <label id="lblPrecioVentaGalleta" for="txtNuevaGalleta" class="form-label">Precio de venta:</label>
+                                    <input type="text" id="txtPrecioVentaEditar" class="form-control" placeholder="Precio de venta">
+                                </div>
+                                <div id="gelletaHorneada" class="d-flex col" style="margin-left: 6% !important;">
+                                    <input type="file" id="fotografiaInputEditar" class="btn btn-primary" onchange="moduloProducto.convertirPDFEditar();">
+                                    <textarea id="base64OutputEditar" class="col-lg-8" rows="10" cols="50" style="display: none;"></textarea>
+                                    <embed id="fotografiaEditar" src="" type="application/pdf" width="100px" height="100px">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button id="btnEditarGalleta" type="button" class="btn btn-success" onclick="moduloProducto.guardarGalleta()">Guardar galleta</button>
                         </div>
                     </form>
                 </div>

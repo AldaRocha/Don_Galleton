@@ -1,7 +1,7 @@
 
 /* 
     Created on : 18 nov. 2023, 21:21:58
-    Author     : alda
+    Author     : codeware
 */
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&family=Quicksand:wght@400;700&display=swap");
@@ -151,7 +151,7 @@ nav:hover{
 }
 
 .table-hover tbody tr:hover {
-    background-color: #F9E79F !important;
+    background-color: #f1c896 !important;
     color: #fff !important;
 }
 
@@ -185,7 +185,7 @@ li.paginate_button.previous:not(.disabled) a.page-link[data-dt-idx="previous"] {
     margin-right: 10% !important;
 }
 
-#txtNuevaGalleta, #txtPrecioProdGalleta, #txtPrecioVentaGalleta {
+#txtNuevaGalleta, #txtEditarGalleta, #txtPrecioProdGalleta, #txtPrecioProdEditar, #txtPrecioVentaGalleta, #txtPrecioVentaEditar, #txtCantidadExisEditar {
     width: 200px !important; 
     height: 35px !important;
     margin-left: 10px !important;
@@ -213,11 +213,36 @@ label{
     font-size: 14.5px !important;
 }
 
-.btnEliminar, #btnModificar{
+.btnEliminar, #btnModificar, #btnEditar{
     background: transparent;
 }
 
+<<<<<<< HEAD
 .imagen-pequena {
         width: 100px; /* Ancho deseado */
         height: auto; /* Mantener la proporción */
     }
+=======
+#fotografia, #fotografiaEditar{
+    margin-top: -25px;
+}
+
+#fotografiaInput, #fotografiaInputEditar{
+    background: transparent;
+    border-color: transparent;
+    color: #573B2F;
+}
+
+input[type="file"] {
+    font-size: 14px;
+    text-align: start;
+}
+
+#swal2-content{
+    color: black;
+}
+
+#txtCantidadExisEditar{
+    margin-left: 20px !important;
+}
+>>>>>>> 7a8b9b09bc9576cf745428eea0dae85ddd96db82
