@@ -1,6 +1,43 @@
 <!-- Vista parcial de punto de venta -->
 <div class="container">
-    <h1 class="text-center">
-        Pantalla Punto de venta
+    <h1 class="text-center mb-5">
+        Pedido
     </h1>
+    <div class="row" id="contenedorGalletas">
+
+        <!-- Aquí se generarán dinámicamente las imágenes y textos de cantidad -->
+    </div>
+
+    <div class="table-container">
+        <table id="tblProductos" class="table table-hover table-sm">
+            <thead>
+                <tr>
+                    <th id="tblCabecera">Nombre del producto</th>
+                    <th id="tblCabecera">
+                        <select name="medida" id="txtMedida">
+                            <option selected id="idOption" value="pieza">Piezas</option>
+                            <option id="idOption" value="caja1K">Caja de 1K</option>
+                            <option id="idOption" value="cajaMedioK">Caja de 1/2K</option>
+                        </select>
+                    </th>
+                    <th id="tblCabecera">Precio de venta por pieza</th>
+                    <th id="tblCabecera">Total</th>
+                    <th id="tblBtn"></th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table> 
+        <div class="total-container">
+            <label for="totalInput">Total:</label>
+            <input type="text" id="totalInput" readonly>
+        </div>
+        <div class="button-container btnEnd">
+
+            <button class="btn btn-success" id="btnComprar"  >Confirmar Pedido</button>
+        </div>
+    </div>
+
+
 </div>

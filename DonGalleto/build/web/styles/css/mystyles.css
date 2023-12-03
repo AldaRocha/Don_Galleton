@@ -216,3 +216,8 @@ label{
 .btnEliminar, #btnModificar{
     background: transparent;
 }
+
+.imagen-pequena {
+        width: 100px; /* Ancho deseado */
+        height: auto; /* Mantener la proporción */
+    }
