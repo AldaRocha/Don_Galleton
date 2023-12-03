@@ -11,17 +11,19 @@ public class Producto {
     private double cantidadExistentes;
     private double precioVenta;
     private double precioProduccion;
+    private String fotografia;
     private Medida medida;
 
     public Producto() {
     }
 
-    public Producto(int idProducto, String nombreProducto, double cantidadExistentes, double precioVenta, double precioProduccion, Medida medida) {
+    public Producto(int idProducto, String nombreProducto, double cantidadExistentes, double precioVenta, double precioProduccion, String fotografia, Medida medida) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.cantidadExistentes = cantidadExistentes;
         this.precioVenta = precioVenta;
         this.precioProduccion = precioProduccion;
+        this.fotografia = fotografia;
         this.medida = medida;
     }
 
@@ -65,6 +67,14 @@ public class Producto {
         this.precioProduccion = precioProduccion;
     }
 
+    public String getFotografia() {
+        return fotografia;
+    }
+
+    public void setFotografia(String fotografia) {
+        this.fotografia = fotografia;
+    }
+
     public Medida getMedida() {
         return medida;
     }
@@ -75,6 +85,6 @@ public class Producto {
 
     @Override
     public String toString() {
-        return "Producto{" + "idProducto=" + idProducto + ", nombreProducto=" + nombreProducto + ", cantidadExistentes=" + cantidadExistentes + ", precioVenta=" + precioVenta + ", precioProduccion=" + precioProduccion + ", medida=" + medida + '}';
+        return "Producto{" + "idProducto=" + idProducto + ", nombreProducto=" + nombreProducto + ", cantidadExistentes=" + cantidadExistentes + ", precioVenta=" + precioVenta + ", precioProduccion=" + precioProduccion + ", fotografia=" + fotografia + ", medida=" + medida + '}';
     }
 }

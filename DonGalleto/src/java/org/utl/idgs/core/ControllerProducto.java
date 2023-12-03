@@ -20,7 +20,7 @@ public class ControllerProducto {
     public int insertarProducto(Producto p) throws Exception {
         String sql = "{call insertarProducto(?, ?,"
                                             + "?, ?, "
-                                            + "?, ?)}";
+                                            + "?, ?, ?)}";
        
         int idProductoGenerado = -1;
         ConexionMySQL connMySQL = new ConexionMySQL();
@@ -33,9 +33,10 @@ public class ControllerProducto {
         cstmt.setDouble(3, p.getPrecioVenta());
         cstmt.setDouble(4, p.getPrecioProduccion());
         cstmt.setInt(5, p.getMedida().getIdMedida());
-        cstmt.registerOutParameter(6, Types.INTEGER);
+        cstmt.setString(6, p.getFotografia());
+        cstmt.registerOutParameter(7, Types.INTEGER);
         cstmt.executeUpdate();
-        idProductoGenerado = cstmt.getInt(6);
+        idProductoGenerado = cstmt.getInt(7);
         p.setIdProducto(idProductoGenerado);
 
         cstmt.close();
@@ -47,7 +48,7 @@ public class ControllerProducto {
         public void actualizarProducto(Producto p) throws Exception {
         String sql = "{call actualizarProducto(?, ?,"
                                             + "?, ?, "
-                                            + "?, ?)}"; 
+                                            + "?, ?, ?)}"; 
 
         ConexionMySQL connMySQL = new ConexionMySQL();
         Connection conn = connMySQL.open();
@@ -59,6 +60,7 @@ public class ControllerProducto {
         cstmt.setDouble(4, p.getPrecioVenta());
         cstmt.setDouble(5, p.getPrecioProduccion());
         cstmt.setInt(6, p.getMedida().getIdMedida());
+        cstmt.setString(7, p.getFotografia());
         
         cstmt.setInt(1, p.getIdProducto());
 
@@ -108,6 +110,30 @@ public class ControllerProducto {
         return productos;
     }
     
+    public Producto getProducto(int filtro) throws Exception {
+        String sql = "SELECT * FROM v_producto WHERE idProducto ="+filtro+";" ;
+
+        ConexionMySQL connMySQL = new ConexionMySQL(); 
+
+        Connection conn = connMySQL.open();
+
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        ResultSet rs = pstmt.executeQuery();
+        Producto productos = new Producto();
+
+        while (rs.next()) {
+            productos = fill(rs);
+        }
+        System.out.println("CONTROLLER: "+productos);
+
+        rs.close();
+        pstmt.close();
+        connMySQL.close();
+
+        return productos;
+    }
+    
     private Producto fill(ResultSet rs) throws Exception {
         Producto p = new Producto();
         Medida m = new Medida();
@@ -120,10 +146,8 @@ public class ControllerProducto {
         p.setCantidadExistentes(rs.getDouble("cantidadExistentes"));
         p.setPrecioVenta(rs.getDouble("precioVenta"));
         p.setPrecioProduccion(rs.getDouble("precioProduccion"));
-        
-
-        
+        p.setFotografia(rs.getString("fotografia"));   
+       
         return p;
-    }
-    
+    }   
 }
