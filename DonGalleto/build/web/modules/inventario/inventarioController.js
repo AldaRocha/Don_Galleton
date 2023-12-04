@@ -69,9 +69,9 @@ export function guardarMateriaPrima() {
         console.log("EDITAR");
         let idMaterial = parseInt(document.getElementById("txtIdMateriaEditar").value);
         materiaPrima.idMateriaPrima = idMaterial;
-        
+
         materiaPrima.nombreMateria = document.getElementById("txtNobreMaterialEditar").value;
-        materiaPrima.fechaCompra =document.getElementById("txtFechaCompraMaterialEditar").value;
+        materiaPrima.fechaCompra = document.getElementById("txtFechaCompraMaterialEditar").value;
         materiaPrima.fechaVencimiento = document.getElementById("txtFechaVenciMaterialEditar").value;
         materiaPrima.cantidadExistentes = document.getElementById("txtCantidadMaterialEditar").value;
         materiaPrima.precioCompra = document.getElementById("txtPrecioCompraEditar").value;
@@ -128,7 +128,7 @@ export function editarProducto(data) {
     console.log("Editar", JSON.stringify(data));
     $('#modalMateriaEditar').modal('show');
     getProducto(data.idMateriaPrima);
-    
+
 }
 
 function cambiarFormatoFecha(fechaIngresada) {
@@ -185,11 +185,11 @@ export function cargarTabla(data) {
     for (let i = 0; i < data.length; i++) {
         const fechaCompraSubstring = cambiarFormatoFechaTabla(data[i]['fechaCompra'].substring(0, 10));
         const fechaVencimientoSubstring = cambiarFormatoFechaTabla(data[i]['fechaVencimiento'].substring(0, 10));
-        
-        var precioCompraConSigno =data[i]['precioCompra'] + ' MXN ' ;
-         var porcentajeConSigno =data[i]['porcentaje'] + ' % ' ;
 
-        
+        var precioCompraConSigno = data[i]['precioCompra'] + ' MXN ';
+        var porcentajeConSigno = data[i]['porcentaje'] + ' % ';
+
+
 
         let fila = `<tr>
         <td>${data[i]['nombreMateria']}</td>
@@ -377,22 +377,15 @@ function getProducto(idMateriaPrima) {
                 }
 
                 var fechaCompra = new Date(data['fechaCompra']);
-                var diaCompra = fechaCompra.getDate();
-                var mesCompra = fechaCompra.getMonth() + 1;
-                var anioCompra = fechaCompra.getFullYear();
-                var fechaCompraFormateada = `${diaCompra}/${mesCompra}/${anioCompra}`;
+                var fechaCompraVencimiento = new Date(data['fechaVencimiento']);
 
-                var fechaVencimiento = new Date(data['fechaVencimiento']);
-                var diaVencimiento = fechaVencimiento.getDate();
-                var mesVencimiento = fechaVencimiento.getMonth() + 1;
-                var anioVencimiento = fechaVencimiento.getFullYear();
-
-                var fechaVencimientoFormateada = `${diaVencimiento}/${mesVencimiento}/${anioVencimiento}`;
+                var fechaFormateada = fechaCompra.toISOString().split('T')[0];
+                var fechaVencimientoFormateada = fechaCompraVencimiento.toISOString().split('T')[0];
 
 
                 console.log(data);
                 document.getElementById("txtNobreMaterialEditar").value = data['nombreMateria'];
-                document.getElementById("txtFechaCompraMaterialEditar").value = fechaCompraFormateada;
+                document.getElementById("txtFechaCompraMaterialEditar").value = fechaFormateada;
                 document.getElementById("txtFechaVenciMaterialEditar").value = fechaVencimientoFormateada;
                 document.getElementById("txtCantidadMaterialEditar").value = data['cantidadExistentes'];
                 document.getElementById("txtPrecioCompraEditar").value = data['precioCompra'];
@@ -415,7 +408,7 @@ function getProducto(idMateriaPrima) {
 }
 
 export function clean() {
-    
+
     document.getElementById("txtNobreMaterial").value = "";
     document.getElementById("txtFechaCompraMaterial").value = "";
     document.getElementById("txtFechaVenciMaterial").value = "";
