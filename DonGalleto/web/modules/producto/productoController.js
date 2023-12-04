@@ -8,8 +8,37 @@ let result = "";
 let resultImg = "";
 let getProd = [];
 
+$(document).ready(function () {
+    
+});
+
+
 export function inicializar(){
+    getAllIngredientes();
     getAll();
+    
+    $('#txtMedida').on('change', function () {
+        var medidaSeleccionada = $(this).val();
+        console.log(medidaSeleccionada);
+        var filas = $('#tblProductos tbody tr');
+
+        filas.each(function () {
+            var cantidadOriginal = parseInt($(this).find('td:eq(1)').attr('valuepiezas'));
+            if (cantidadOriginal !== 0) {
+                var cantidadActual = parseInt($(this).find('td:eq(1)').text()); 
+                if (medidaSeleccionada === 'caja1K') {
+                    cantidadActual = Math.ceil(cantidadOriginal / 25);
+                } else if (medidaSeleccionada === 'cajaMedioK') {
+                    cantidadActual = Math.ceil(cantidadOriginal / 12.5);
+                }else if (medidaSeleccionada === 'pieza'){
+                    cantidadActual = Math.ceil(cantidadOriginal);
+                }
+
+                $(this).find('td:eq(1)').text(cantidadActual);
+            }
+        });
+    });
+    
     $("#txtGalleta").change(function () {
         var idProducto = $(this).find("option:selected").attr("idproducto");
         nombre = $(this).find("option:selected").attr("value");
@@ -17,11 +46,16 @@ export function inicializar(){
         precioVenta = $(this).find("option:selected").attr("precioVenta");
         precioProduccion = $(this).find("option:selected").attr("precioProduccion");
 
-        document.getElementById("txtIdProducto").value = idProducto;        
+        document.getElementById("txtIdProducto").value = idProducto; 
     });
 }
 
 export function guardarGalleta(){
+    
+    document.getElementById("txtIngredientes").value = "";
+    document.getElementById("txtCantidadPorcion").value = "";
+    var tbody = $('#tbodyIngredientes');
+    tbody.empty(); // Vacía el tbody actual
     
     let datos = null;
     let params = null;
@@ -48,6 +82,7 @@ export function guardarGalleta(){
         };
     
     console.log("datos: "+ datos);
+    
     params = new URLSearchParams(datos);
     console.log(params);
     fetch("../../api/producto/save",
@@ -79,11 +114,67 @@ export function guardarGalleta(){
                     Swal.fire('', "No tiene permiso para realizar esta operación.", 'warning');
 
                 }
+                console.log(arrayIngredientes);
+                
+                    // FETCH INGREDIENTES
+                    for (var i = 0; i < arrayIngredientes.length; i++) {
+                        let datosIng = null;
+                        let paramsIng = null;
 
+                        let crearProducto = new Object();
+                        crearProducto.producto = {};
+                        crearProducto.medida = {};
+                        crearProducto.materiaPrima = {};
+
+                        crearProducto.porcion = arrayIngredientes[i]['porcion'];
+                        crearProducto.producto.idProducto = data['idProducto'];
+                        crearProducto.medida.idMedida = 3;
+                            console.log(arrayIngredientes[i]['idMateriaPrima']);
+                        crearProducto.materiaPrima.idMateriaPrima = arrayIngredientes[i]['idMateriaPrima'];
+
+                        datosIng = {
+                            datosCrearProducto: JSON.stringify(crearProducto)
+                        };
+
+                    console.log(datosIng);
+
+                    paramsIng = new URLSearchParams(datosIng);
+                    console.log(paramsIng);
+                    fetch("../../api/producto/guardarCrearProducto",
+                            {method: "POST",
+
+                                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+                                body: paramsIng
+                            })
+                            .then(response => {
+                                return response.json();
+                            })
+                            .then(function (data)
+                            {
+                                if (data.exception != null)
+                                {
+                                    Swal.fire('', "Error interno del servidor. Intente nuevamente más tarde", 'warning');
+
+                                    return;
+                                }
+                                if (data.error != null)
+                                {
+                                    Swal.fire('', data.error, 'warning');
+
+                                    return;
+                                }
+                                if (data.errorperm != null)
+                                {
+                                    Swal.fire('', "No tiene permiso para realizar esta operación.", 'warning');
+
+                                }
+                            });
+                    }
+                $('#modalProductosNuevos .btn-secondary').click();
                 Swal.fire('', 'Galleta registrada correctamente', 'success');
                 getAll();
                 clean();
-                
+                  
             });
     }else{
         console.log("EDITAR");
@@ -137,7 +228,6 @@ export function guardarGalleta(){
                 Swal.fire('', 'Galleta registrada correctamente', 'success');
                 getAll();
                 clean();
-                $('#modalProductosNuevos').modal('hide');
                 $('#modalProductosEditar').modal('hide');
             });
     }
@@ -157,10 +247,9 @@ export function agregarGalletaHorneada(){
         console.log("ACTUALIZAR");
     producto.idProducto = parseInt(document.getElementById("txtIdProducto").value);
     }
-        
-        
-        var valueMerma = $('#txtMerma').val();
-        console.log(valueMerma);
+            
+    var valueMerma = $('#txtMerma').val();
+    console.log(valueMerma);
         if (valueMerma !== "") {
             let total = 120 - parseInt(valueMerma);
             totalCantidadExis = parseInt(cantidadExistentes) + total;
@@ -178,13 +267,13 @@ export function agregarGalletaHorneada(){
         producto.medida.idMedida = idMedida;
             
         datos = {
-        datosProducto: JSON.stringify(producto) 
+            datosProducto: JSON.stringify(producto) 
         };
         
         console.log(datos);
 
-    params = new URLSearchParams(datos);
-    fetch("../../api/producto/save",
+        params = new URLSearchParams(datos);
+        fetch("../../api/producto/save",
             {method: "POST",
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
                 body: params
@@ -214,13 +303,126 @@ export function agregarGalletaHorneada(){
                 }
 
                 document.getElementById("txtIdProducto").value = data.idProducto;
+                
+                //FETCH OBTENER MATERIA PRIMA
+                
+                let paramsMateria = null;
+                let datosProducto =null;
+                
+                datosProducto = data['idProducto'];
+                console.log(datosProducto);
+                
+                paramsMateria = new URLSearchParams(datosProducto);
+                fetch("../../api/producto/getProductoCreado?datosProducto="+datosProducto,
+                    {method: "POST",
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+                        //body: datosProducto
+                    })
 
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(function (data){
+                        console.log(data);
+                        if (data.exception != null)
+                        {
+                            Swal.fire('', "Error interno del servidor. Intente nuevamente más tarde", 'warning');
+
+                            return;
+                        }
+                        if (data.error != null)
+                        {
+                            Swal.fire('', data.error, 'warning');
+
+                            return;
+                        }
+                        if (data.errorperm != null)
+                        {
+                            Swal.fire('', "No tiene permiso para realizar esta operación.", 'warning');
+
+                        }
+                        
+                    //FETCH DESCONTAR EN MATERIA PRIMA
+                    
+                    let paramsMateriaPrima = null;
+                    let datosMateria =null;
+                    
+                    let materiaPrima = {};
+                    materiaPrima.medida = {};
+                    
+                        for (var i = 0; i < data.length; i++) {
+                            var fechaObj = new Date(data[i]['materiaPrima']['fechaCompra']);
+                            var dia = fechaObj.getDate();
+                            var mes = fechaObj.getMonth() + 1;
+                            var anio = fechaObj.getFullYear();
+                            var fechaCompra = dia + '/' + mes + '/' + anio;
+
+                            var fechaVen = new Date(data[i]['materiaPrima']['fechaVencimiento']);
+                            var dia = fechaVen.getDate();
+                            var mes = fechaVen.getMonth() + 1;
+                            var anio = fechaVen.getFullYear();
+                            var fechaVencimiento = dia + '/' + mes + '/' + anio;
+
+                            let porcion = data[i]['porcion'];
+                            let existenciaMateria = data[i]['materiaPrima']['cantidadExistentes'];
+
+                            let actualizarExistencia = parseFloat(existenciaMateria - porcion);
+
+                            materiaPrima.idMateriaPrima = data[i]['materiaPrima']['idMateriaPrima'];
+                            materiaPrima.nombreMateria = data[i]['materiaPrima']['nombreMateria'];
+                            materiaPrima.fechaCompra = fechaCompra;
+                           materiaPrima.fechaVencimiento = fechaVencimiento;
+                            materiaPrima.cantidadExistentes = parseFloat(actualizarExistencia);
+                            materiaPrima.precioCompra = data[i]['materiaPrima']['precioCompra'];
+                            materiaPrima.porcentaje = data[i]['materiaPrima']['porcentaje'];
+                            materiaPrima.medida.idMedida = data[i]['medida']['idMedida'];                                     
+
+                            datosMateria = {
+                                datosMateria: JSON.stringify(materiaPrima) 
+                            };
+
+                            console.log(datosMateria);
+
+                            paramsMateriaPrima = new URLSearchParams(datosMateria
+                                    );
+                            fetch("../../api/producto/actualizarMateria",
+                                {method: "POST",
+                                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+                                    body: paramsMateriaPrima
+                                })
+
+                                .then(response => {
+                                    return response.json();
+                                })
+                                .then(function (data){
+                                    console.log(data);
+                                    if (data.exception != null)
+                                    {
+                                        Swal.fire('', "Error interno del servidor. Intente nuevamente más tarde", 'warning');
+
+                                        return;
+                                    }
+                                    if (data.error != null)
+                                    {
+                                        Swal.fire('', data.error, 'warning');
+
+                                        return;
+                                    }
+                                    if (data.errorperm != null)
+                                    {
+                                        Swal.fire('', "No tiene permiso para realizar esta operación.", 'warning');
+
+                                    }
+                                });
+                        }
+
+                    });          
+                
                 Swal.fire('', 'Se han agregado las galletas horneadas correctamente', 'success');
                 getAll();
                 clean();
-                //$('#modalProductos').modal('hide');
+                $('#modalProductos .btn-secondary').click();
             });
-
 }
 
 export function editarProducto(data){
@@ -262,7 +464,7 @@ export function cargarTabla(data) {
     for (let i = 0; i <data.length; i++) {        
         let fila = `<tr>
             <td>${data[i]['nombreProducto']}</td>
-            <td>${data[i]['cantidadExistentes']}</td>
+            <td valuePiezas="${data[i]['cantidadExistentes']}" >${data[i]['cantidadExistentes']}</td>
             <td>${data[i]['precioProduccion']}</td>
             <td>${data[i]['precioVenta']}</td>
             <td><button data-idproducto="${data[i]['idProducto']}" class="btnEliminar"><i class="fa-solid fa-trash" style="color: #c12525;"></i></button></td>
@@ -312,6 +514,39 @@ export function cargarTabla(data) {
     
 
 };
+
+export function cargarIngredientes(dataIng){
+    console.log(dataIng);
+    
+     // agregar ingredientes dinamico en select
+    let filaIngredientes = `<option selected>Elige el ingrediente</option>`;
+    for (let i = 0; i <dataIng.length; i++) {
+        filaIngredientes += `<option idMateriaPrima="${dataIng[i]['idMateriaPrima']}">${dataIng[i]['nombreMateria']}</option>`;
+    }
+    $('#txtIngredientes').append(filaIngredientes);
+}
+
+var arrayIngredientes = [];
+
+export function llenarTablaIngredientes() {        
+    let ing = document.getElementById("txtIngredientes").value;
+    let cantidadPorcion = document.getElementById("txtCantidadPorcion").value;
+    var optionElement = $('#txtIngredientes option:selected');
+    var idMateriaPrima = optionElement.attr('idmateriaprima');
+
+    arrayIngredientes.push(
+            {idMateriaPrima:idMateriaPrima, ingrediente: ing, porcion: cantidadPorcion }
+    );
+    
+    console.log(arrayIngredientes);
+    var tbody = $('#tbodyIngredientes');
+    tbody.empty(); // Vacía el tbody actual
+
+    var fila = $('<tr>');
+        fila.append('<td>' + ing + '</td>');
+        fila.append('<td>' + cantidadPorcion + ' KG</td>');
+    tbody.append(fila);
+}
 
 export function deleteProducto() {
     Swal.fire({
@@ -381,6 +616,30 @@ function getAll(){
         })
         .then(function (data) {
             cargarTabla(data);
+            if (data.exception != null) {
+                Swal.fire("", "Error interno del servidor. Intente nuevamente más tarde.", "error");
+                return;
+            }
+
+            if (data.error != null) {
+                Swal.fire("", data.error, "warning");
+                return;
+            }
+
+            if (data.errorsec != null) {
+                Swal.fire("", data.errorsec, "error");
+            }
+        });
+}
+
+function getAllIngredientes(){
+    let url = "../../api/producto/getAllIngredientes";
+    fetch(url)
+        .then(response => {
+            return response.json();
+        })
+        .then(function (data) {
+            cargarIngredientes(data);
             if (data.exception != null) {
                 Swal.fire("", "Error interno del servidor. Intente nuevamente más tarde.", "error");
                 return;

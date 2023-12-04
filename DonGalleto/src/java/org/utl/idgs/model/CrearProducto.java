@@ -62,4 +62,9 @@ public class CrearProducto {
     public void setMateriaPrima(MateriaPrima materiaPrima) {
         this.materiaPrima = materiaPrima;
     }
+
+    @Override
+    public String toString() {
+        return "CrearProducto{" + "idCrearProducto=" + idCrearProducto + ", porcion=" + porcion + ", producto=" + producto + ", medida=" + medida + ", materiaPrima=" + materiaPrima + '}';
+    }
 }

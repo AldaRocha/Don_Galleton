@@ -239,3 +239,29 @@ input[type="file"] {
 #txtCantidadExisEditar{
     margin-left: 20px !important;
 }
+
+#modalProductosNuevos .modal-dialog {
+    max-width: 80% !important;
+    width: auto !important;
+}
+
+#lblFotografiaInput, #lblPrecioVentaGalleta{
+    margin-left: -70px;
+}
+
+#fotografia{
+      margin-left: -10px !important;
+}
+
+#fotografiaInput{
+    margin-left: 10px;
+    margin-top: -65px;
+}
+
+#lblFotografiaInput{
+    margin-top: 30px;
+}
+
+#tblIngredientes{
+    margin-top: -100px;
+}
