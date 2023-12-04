@@ -14,6 +14,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 import org.utl.idgs.core.ControllerProducto;
+import org.utl.idgs.model.CrearProducto;
+import org.utl.idgs.model.MateriaPrima;
 import org.utl.idgs.model.Producto;
 
 /**
@@ -44,6 +46,82 @@ public class RESTProducto {
                 cp.actualizarProducto(prod);
             }
             out = gson.toJson(prod);
+        }
+        catch (JsonParseException jpe)
+        {
+            jpe.printStackTrace();
+            out = """
+                  {"exception":"Formato JSON de Datos Incorrectos."}
+                  """;
+        }
+        catch (Exception e) //Cualquier otra excpetion
+        {
+            e.printStackTrace();
+            out ="""
+                 {"exception":"%s"}
+                 """;
+            out = String.format(out, e.toString());
+        }
+        return Response.status(Response.Status.OK).entity(out).build();
+    }
+    
+    @Path("guardarCrearProducto")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response guardarCrearProducto(@FormParam("datosCrearProducto") @DefaultValue("") String datosCrearProducto)
+    {
+        String out = null;
+        Gson gson = new Gson();
+        CrearProducto prod = null;
+        ControllerProducto cp = new ControllerProducto();
+        
+        try 
+        {
+            prod = gson.fromJson(datosCrearProducto, CrearProducto.class);
+            if (prod != null)
+            {
+                cp.insertarCrearProducto(prod);
+            }
+            
+            out = gson.toJson(prod);
+        }
+        catch (JsonParseException jpe)
+        {
+            jpe.printStackTrace();
+            out = """
+                  {"exception":"Formato JSON de Datos Incorrectos."}
+                  """;
+        }
+        catch (Exception e) //Cualquier otra excpetion
+        {
+            e.printStackTrace();
+            out ="""
+                 {"exception":"%s"}
+                 """;
+            out = String.format(out, e.toString());
+        }
+        return Response.status(Response.Status.OK).entity(out).build();
+    }
+    
+    @Path("actualizarMateria")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response actualizarMateria(@FormParam("datosMateria") @DefaultValue("") String datosMateria)
+    {
+        String out = null;
+        Gson gson = new Gson();
+        MateriaPrima mp = null;
+        ControllerProducto cp = new ControllerProducto();
+        
+        try 
+        {
+            mp = gson.fromJson(datosMateria, MateriaPrima.class);
+            if (mp != null)
+            {
+                cp.actualizarMateriaPrima(mp);
+            }
+            
+            out = gson.toJson(mp);
         }
         catch (JsonParseException jpe)
         {
@@ -148,4 +226,55 @@ public class RESTProducto {
         return Response.status(Response.Status.OK).entity(out).build();
     }
     
+    @Path("getProductoCreado")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getProductoCreado(@QueryParam("datosProducto") @DefaultValue("0") int datosProducto){
+        System.out.println("REST creado: "+datosProducto);
+        String out = null;
+        Gson gson = new Gson();
+        List<CrearProducto> p = null;
+        ControllerProducto cp = new ControllerProducto();
+        try 
+        {
+            //p = gson.fromJson(datosProducto, CrearProducto.class);
+            p = cp.getProductoCreado(datosProducto);
+            out = gson.toJson(p);
+        }
+        catch (JsonParseException jpe)
+        {
+            jpe.printStackTrace();
+            out = """
+                  {"exception":"Formato JSON de Datos Incorrectos."}
+                  """;
+        }
+        catch (Exception e) //Cualquier otra excpetion
+        {
+            e.printStackTrace();
+            out ="""
+                 {"exception":"%s"}
+                 """;
+            out = String.format(out, e.toString());
+        }
+        return Response.status(Response.Status.OK).entity(out).build();
+    }
+    
+    @GET
+    @Path("getAllIngredientes")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllIngredientes(@QueryParam("filtro") @DefaultValue("") String filtro) {
+        String out = null;
+        ControllerProducto cp = null;
+        List<MateriaPrima> mp = null;
+        try {
+            cp = new ControllerProducto();
+            mp = cp.getAllIngredientes(filtro);
+            out = new Gson().toJson(mp);
+        } catch (Exception e) {
+            e.printStackTrace();
+            out = "{\"exception\":\"Error interno del servidor.\"}";
+        }
+        return Response.status(Response.Status.OK).header("Access-Control-Allow-Origin", "*").entity(out).build();
+        
+    }
 }
