@@ -1,13 +1,3 @@
-let nombre;
-let cantidadExistentes;
-let totalCantidadExis;
-let precioVenta;
-let precioProduccion;
-let idMedida = 1;
-let result = "";
-let resultImg = "";
-let getProd = [];
-
 export function inicializar() {
     getAll();
 }
@@ -21,8 +11,8 @@ export function guardarMateriaPrima() {
     materiaPrima.medida = {};
 
     let idMateria = parseInt(document.getElementById("txtIdMateria").value.trim().length);
-
-    if (idMateria === 0) {
+    let idMateriaEditar = parseInt(document.getElementById("txtIdMateriaEditar").value.trim().length);
+    if (idMateria === 0 && idMateriaEditar === 0) {
         materiaPrima.idMateriaPrima = 0;
 
         materiaPrima.nombreMateria = document.getElementById("txtNobreMaterial").value;
@@ -72,7 +62,7 @@ export function guardarMateriaPrima() {
 
                     Swal.fire('', 'Galleta registrada correctamente', 'success');
                     getAll();
-                    //clean();
+                    clean();
 
                 });
     } else {
@@ -81,15 +71,15 @@ export function guardarMateriaPrima() {
         materiaPrima.idMateriaPrima = idMaterial;
         
         materiaPrima.nombreMateria = document.getElementById("txtNobreMaterialEditar").value;
-        materiaPrima.fechaCompra = cambiarFormatoFecha(document.getElementById("txtFechaCompraMaterialEditar").value);
-        materiaPrima.fechaVencimiento = cambiarFormatoFecha(document.getElementById("txtFechaVenciMaterialEditar").value);
+        materiaPrima.fechaCompra =document.getElementById("txtFechaCompraMaterialEditar").value;
+        materiaPrima.fechaVencimiento = document.getElementById("txtFechaVenciMaterialEditar").value;
         materiaPrima.cantidadExistentes = document.getElementById("txtCantidadMaterialEditar").value;
         materiaPrima.precioCompra = document.getElementById("txtPrecioCompraEditar").value;
         materiaPrima.porcentaje = document.getElementById("txtPorcentajeMaterialEditar").value;
         materiaPrima.medida.idMedida = document.getElementById("txtMedidaMaterialEditar").value;
 
         datos = {
-            datosProducto: JSON.stringify(materiaPrima)
+            datosMateriaPrima: JSON.stringify(materiaPrima)
         };
 
         console.log("datos: " + datos);
@@ -129,15 +119,16 @@ export function guardarMateriaPrima() {
                     getAll();
                     clean();
                     $('#modalMaterialPrima').modal('hide');
-                    $('#modalProductosEditar').modal('hide');
+                    $('#modalMateriaEditar').modal('hide');
                 });
     }
 }
 
 export function editarProducto(data) {
     console.log("Editar", JSON.stringify(data));
-    $('#modalProductosEditar').modal('show');
+    $('#modalMateriaEditar').modal('show');
     getProducto(data.idMateriaPrima);
+    
 }
 
 function cambiarFormatoFecha(fechaIngresada) {
@@ -152,6 +143,20 @@ function cambiarFormatoFecha(fechaIngresada) {
     mes = mes < 10 ? '0' + mes : mes;
 
     return dia + '/' + mes + '/' + anio;
+}
+
+function cambiarFormatoFechaTabla(fechaIngresada) {
+
+    var fecha = new Date(fechaIngresada);
+
+    var dia = fecha.getDate();
+    var mes = fecha.getMonth() + 1;
+    var anio = fecha.getFullYear();
+
+    dia = dia < 10 ? '0' + dia : dia;
+    mes = mes < 10 ? '0' + mes : mes;
+
+    return dia + '-' + mes + '-' + anio;
 }
 
 export function cargarTabla(data) {
@@ -178,18 +183,22 @@ export function cargarTabla(data) {
 
     // generar tabla dinamica
     for (let i = 0; i < data.length; i++) {
-        // Obtener las subcadenas de las fechas
-        const fechaCompraSubstring = data[i]['fechaCompra'].substring(0, 10);
-        const fechaVencimientoSubstring = data[i]['fechaVencimiento'].substring(0, 10);
+        const fechaCompraSubstring = cambiarFormatoFechaTabla(data[i]['fechaCompra'].substring(0, 10));
+        const fechaVencimientoSubstring = cambiarFormatoFechaTabla(data[i]['fechaVencimiento'].substring(0, 10));
+        
+        var precioCompraConSigno =data[i]['precioCompra'] + ' MXN ' ;
+         var porcentajeConSigno =data[i]['porcentaje'] + ' % ' ;
+
+        
 
         let fila = `<tr>
         <td>${data[i]['nombreMateria']}</td>
         <td>${data[i]['cantidadExistentes']}</td>
-        <td>${data[i]['precioCompra']}</td>
+        <td>${data[i]['medida']['tipoMedida']}</td>
+        <td>${precioCompraConSigno}</td>
         <td>${fechaCompraSubstring}</td>
         <td>${fechaVencimientoSubstring}</td>
-        <td>${data[i]['porcentaje']}</td>
-        <td>${data[i]['medida']['tipoMedida']}</td>
+        <td>${porcentajeConSigno}</td>
         <td><button data-idmateriaprima="${data[i]['idMateriaPrima']}" class="btnEliminar"><i class="fa-solid fa-trash" style="color: #c12525;"></i></button></td>
         <td><button data-idmateriaprima="${data[i]['idMateriaPrima']}" class="btnEditar"><i class="fa-solid fa-pen-to-square" style="color: #57351f;"></i></button></td>
     </tr>`;
@@ -245,7 +254,7 @@ export function cargarTabla(data) {
 export function deleteProducto() {
     Swal.fire({
         title: "¿Estás seguro?",
-        text: "La galleta se eliminará",
+        text: "La materia prima se eliminará",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -253,20 +262,20 @@ export function deleteProducto() {
         confirmButtonText: "Sí, eliminarlo"
     }).then((result) => {
         if (result.isConfirmed) {
-            const idProducto = $(this).data('idproducto');
-            console.log(idProducto);
+            const idMateria = $(this).data('idmateriaprima');
+            console.log(idMateria);
             let datos = null;
             let params = null;
 
-            let producto = new Object();
-            producto.idProducto = idProducto;
+            let materiaPrima = new Object();
+            materiaPrima.idMateriaPrima = idMateria;
             datos = {
-                datosProducto: JSON.stringify(producto)
+                datosMateriaPrima: JSON.stringify(materiaPrima)
             };
 
             params = new URLSearchParams(datos);
 
-            fetch("../../api/producto/delete",
+            fetch("../../api/mprima/delete",
                     {method: "POST",
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
                         body: params
@@ -406,19 +415,23 @@ function getProducto(idMateriaPrima) {
 }
 
 export function clean() {
-    //Limpiar campos de registro de galletas
-    document.getElementById("txtNuevaGalleta").value = "";
-    document.getElementById("txtPrecioProdGalleta").value = "";
-    document.getElementById("txtPrecioVentaGalleta").value = "";
-    document.getElementById("fotografiaInput").value = "";
-    document.getElementById("base64Output").value = "";
-    document.getElementById("fotografia").src = "";
+    
+    document.getElementById("txtNobreMaterial").value = "";
+    document.getElementById("txtFechaCompraMaterial").value = "";
+    document.getElementById("txtFechaVenciMaterial").value = "";
+    document.getElementById("txtCantidadMaterial").value = "";
+    document.getElementById("txtPrecioCompra").value = "";
+    document.getElementById("txtPorcentajeMaterial").value = "";
+    document.getElementById("txtMedidaMaterial").value = "";
+    document.getElementById("txtIdMateria").value = "";
 
-    document.getElementById("txtEditarGalleta").value = "";
-    document.getElementById("txtPrecioProdEditar").value = "";
-    document.getElementById("txtPrecioVentaEditar").value = "";
-    document.getElementById("fotografiaEditar").src = "";
-    document.getElementById("txtIdProductoEditar").value = "";
-    document.getElementById("txtCantidadExisEditar").value = "";
+    document.getElementById("txtNobreMaterialEditar").value = "";
+    document.getElementById("txtFechaCompraMaterialEditar").value = "";
+    document.getElementById("txtFechaVenciMaterialEditar").value = "";
+    document.getElementById("txtCantidadMaterialEditar").value = "";
+    document.getElementById("txtPrecioCompraEditar").value = "";
+    document.getElementById("txtPorcentajeMaterialEditar").value = "";
+    document.getElementById("txtMedidaMaterialEditar").value = "";
+    document.getElementById("txtIdMateriaEditar").value = "";
 
 }

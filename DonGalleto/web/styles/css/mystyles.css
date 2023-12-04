@@ -50,6 +50,13 @@ nav {
     border-radius: 40% ;
 }
 
+.titule{
+    position: relative;
+    /*top: 12px;*/
+    margin-left: 10px;
+    text-decoration: none;
+}
+
 .logo span{
     font-weight: bold;
     padding: 15px;
@@ -57,15 +64,19 @@ nav {
     text-transform: uppercase;
 }
 
-a{
+nav a{
     position: relative;
     font-size: 14px;
     display: table;
     width: 300px;
     padding: 10px;
-    
     text-decoration: none; 
 }
+
+span {
+        text-decoration: none;
+    }
+    
 .fas{
     position: relative;
     width: 70px;
@@ -80,7 +91,7 @@ a{
     position: relative;
     top: 12px;
     margin-left: 10px;
-
+    text-decoration: none;
 }
 
 a:hover{
@@ -135,13 +146,12 @@ nav:hover{
     border: none !important;
     font-weight: bold !important;
     background-color: transparent !important;
-    //color: white !important;
+
 }
 
 #tblCabecera {
-    //color: white !important;
+
     color: #573B2F !important;
-    //background-color: #573B2F !important;
     font-size: 14px !important;
 }
 
@@ -217,10 +227,10 @@ label{
     background: transparent;
 }
 
-<<<<<<< HEAD
+/*<<<<<<< HEAD
 .imagen-pequena {
-        width: 100px; /* Ancho deseado */
-        height: auto; /* Mantener la proporción */
+        width: 100px;  Ancho deseado 
+        height: auto;  Mantener la proporción 
     }
 =======
 #fotografia, #fotografiaEditar{
@@ -274,4 +284,50 @@ input[type="file"] {
 #tblIngredientes{
     margin-top: -100px;
 }
->>>>>>> origin/master
+>>>>>>> origin/master*/
+
+#txtMedidaMaterial, #txtPorcentajeMaterial, #txtPrecioCompra, #txtCantidadMaterial, #txtFechaVenciMaterial, #txtFechaCompraMaterial, #txtNobreMaterial {
+    width: 200px !important;
+    height: 35px !important;
+    margin-left: 10px !important;
+}
+
+#lblNombre, #lblFeCompra, #lblFeVenta, #lblCantidad,#lblPreCompra,#lblPorcentaje,#lblMedida {
+    margin-top: 6px !important;
+    font-size: 14.5px;
+}
+
+#materialPrima {
+    margin-bottom: 10% !important;
+    margin-left: 10% !important;
+    margin-right: 10% !important;
+}
+
+#bodyTabla, #bodyTablaMaterial{
+    height: 100vh !important;
+    margin: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+}
+
+#containerProductos, #containerMateral {
+    width: 80% !important;
+    height: 80% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+#tblProductos, #tblMaterial{
+    margin-top: 30px;
+}
+
+#txtMedidaMaterialEditar, #txtPorcentajeMaterialEditar, #txtPrecioCompraEditar, #txtCantidadMaterialEditar, #txtFechaVenciMaterialEditar, #txtFechaCompraMaterialEditar, #txtNobreMaterialEditar {
+    width: 200px !important;
+    height: 35px !important;
+    margin-left: 10px !important;
+}
+

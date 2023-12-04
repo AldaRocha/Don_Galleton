@@ -50,6 +50,13 @@ nav {
     border-radius: 40% ;
 }
 
+.titule{
+    position: relative;
+    /*top: 12px;*/
+    margin-left: 10px;
+    text-decoration: none;
+}
+
 .logo span{
     font-weight: bold;
     padding: 15px;
@@ -57,15 +64,19 @@ nav {
     text-transform: uppercase;
 }
 
-a{
+nav a{
     position: relative;
     font-size: 14px;
     display: table;
     width: 300px;
     padding: 10px;
-    
     text-decoration: none; 
 }
+
+span {
+        text-decoration: none;
+    }
+    
 .fas{
     position: relative;
     width: 70px;
@@ -80,7 +91,7 @@ a{
     position: relative;
     top: 12px;
     margin-left: 10px;
-
+    text-decoration: none;
 }
 
 a:hover{

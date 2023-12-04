@@ -102,4 +102,10 @@ public class MateriaPrima {
     public void setMedida(Medida medida) {
         this.medida = medida;
     }
+
+    @Override
+    public String toString() {
+        return "MateriaPrima{" + "idMateriaPrima=" + idMateriaPrima + ", nombreMateria=" + nombreMateria + ", fechaCompra=" + fechaCompra + ", fechaVencimiento=" + fechaVencimiento + ", estatus=" + estatus + ", cantidadExistentes=" + cantidadExistentes + ", precioCompra=" + precioCompra + ", porcentaje=" + porcentaje + ", medida=" + medida + '}';
+    }
+    
 }
