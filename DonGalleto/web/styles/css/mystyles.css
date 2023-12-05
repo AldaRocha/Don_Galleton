@@ -227,12 +227,11 @@ label{
     background: transparent;
 }
 
-/*<<<<<<< HEAD
 .imagen-pequena {
-        width: 100px;  Ancho deseado 
-        height: auto;  Mantener la proporción 
+        width: 100px;    
+        height: auto; 
     }
-=======
+    
 #fotografia, #fotografiaEditar{
     margin-top: -25px;
 }
@@ -255,9 +254,6 @@ input[type="file"] {
 #txtCantidadExisEditar{
     margin-left: 20px !important;
 }
-<<<<<<< HEAD
->>>>>>> 7a8b9b09bc9576cf745428eea0dae85ddd96db82
-=======
 
 #modalProductosNuevos .modal-dialog {
     max-width: 80% !important;
@@ -284,7 +280,6 @@ input[type="file"] {
 #tblIngredientes{
     margin-top: -100px;
 }
->>>>>>> origin/master*/
 
 #txtMedidaMaterial, #txtPorcentajeMaterial, #txtPrecioCompra, #txtCantidadMaterial, #txtFechaVenciMaterial, #txtFechaCompraMaterial, #txtNobreMaterial {
     width: 200px !important;
