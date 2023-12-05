@@ -39,7 +39,7 @@ function cargarTabla(data) {
         data.forEach(producto => {
             const columna = document.createElement('div');
             columna.classList.add('col-md-3', 'mt-2');
-            
+
             const fila = document.createElement('div');
             fila.classList.add('row');
 
@@ -76,29 +76,38 @@ function cargarTabla(data) {
 
             // Añadir evento 'click' a la imagen generada
             imagen.addEventListener('click', function () {
-    if (!imagenesSeleccionadas.has(producto.nombreProducto)) {
-        mostrarNombreYPrecio(producto.nombreProducto, producto.precioVenta,producto.idProducto);
-        imagenesSeleccionadas.add(producto.nombreProducto);
+                if (!imagenesSeleccionadas.has(producto.nombreProducto)) {
+                    if (producto.cantidadExistentes === 0) {
+                        Swal.fire('', 'No hay producto suficientes', 'warning');
+                        // Deshabilitar la interacción con el producto y aplicar estilo visual indicando su estado
 
-        // Resaltar la fila seleccionada
-        const filas = document.querySelectorAll('.fila-producto');
-        filas.forEach(fila => fila.classList.remove('fila-seleccionada'));
-        columna.classList.add('fila-seleccionada');
-    }
-});
+                    } else {
+                        mostrarNombreYPrecio(producto.nombreProducto, producto.precioVenta, producto.idProducto);
+                        imagenesSeleccionadas.add(producto.nombreProducto);
+
+                        // Resaltar la fila seleccionada
+                        const filas = document.querySelectorAll('.fila-producto');
+                        filas.forEach(fila => fila.classList.remove('fila-seleccionada'));
+                        columna.classList.add('fila-seleccionada');
+                    }
+                }
+            });
         });
     }
 }
 
 
 
-function mostrarNombreYPrecio( nombre, precio,idProducto) {
+function mostrarNombreYPrecio(nombre, precio, idProducto) {
     const tabla = document.getElementById('tblProductos').getElementsByTagName('tbody')[0];
     const newRow = tabla.insertRow();
 
     // Insertar celdas con nombre, medida, precio y total
     const cellNombre = newRow.insertCell();
-    const cellMedida = newRow.insertCell();
+    const cellPiezas = newRow.insertCell();
+    const cellCaja = newRow.insertCell();
+    const cellGramos = newRow.insertCell();
+    const cellDinero = newRow.insertCell();
     const cellPrecio = newRow.insertCell();
     const cellTotal = newRow.insertCell();
     const cellBtn = newRow.insertCell();
@@ -106,13 +115,30 @@ function mostrarNombreYPrecio( nombre, precio,idProducto) {
     cellNombre.textContent = nombre;
     cellPrecio.textContent = precio;
 
-    const selectMedida = document.getElementById('txtMedida');
-    const inputMedida = document.createElement('input');
-    inputMedida.type = 'number';
-    inputMedida.classList.add('input-medida'); // Agrega una clase al input para identificarlo
-    inputMedida.setAttribute('data-id-producto', idProducto); // Agregar el atributo data-id-producto con el valor de idProducto
-    inputMedida.id = 'idInput';
-    cellMedida.appendChild(inputMedida);
+    const inputPiezas = document.createElement('input');
+    inputPiezas.type = 'number';
+    inputPiezas.classList.add('input-medida'); // Agrega una clase al input para identificarlo
+    inputPiezas.setAttribute('data-id-producto', idProducto); // Agregar el atributo data-id-producto con el valor de idProducto
+    inputPiezas.id = 'inputPiezas';
+    cellPiezas.appendChild(inputPiezas);
+
+    const inputCaja = document.createElement('input');
+    inputCaja.classList.add('input-medida');
+    inputCaja.type = 'number';
+    inputCaja.id = 'inputCaja'; // Puedes añadir un ID para identificar este input
+    cellCaja.appendChild(inputCaja);
+
+    const inputGramos = document.createElement('input');
+    inputGramos.classList.add('input-medida');
+    inputGramos.type = 'number';
+    inputGramos.id = 'inputGramos'; // Puedes añadir un ID para identificar este input
+    cellGramos.appendChild(inputGramos);
+
+    const inputDinero = document.createElement('input');
+    inputDinero.classList.add('input-medida');
+    inputDinero.type = 'number';
+    inputDinero.id = 'inputDinero'; // Puedes añadir un ID para identificar este input
+    cellDinero.appendChild(inputDinero);
 
     const botonEliminar = document.createElement('button');
     botonEliminar.classList.add('btnEliminar');
@@ -134,69 +160,98 @@ function mostrarNombreYPrecio( nombre, precio,idProducto) {
     });
 
     cellBtn.appendChild(botonEliminar);
-   
+
     // Agregar evento 'change' al input para capturar la medida ingresada
-    inputMedida.addEventListener('change', function (event) {
-        const medidaSeleccionada = selectMedida.value;
-        const medidaIngresada = parseFloat(event.target.value);
+    inputPiezas.addEventListener('change', function (event) {
+        actualizarFila(event);
+    });
+    inputCaja.addEventListener('change', function (event) {
+        actualizarFila(event);
+    });
 
-        if (!isNaN(medidaIngresada)) {
-            const precioUnitario = parseFloat(precio);
+    inputGramos.addEventListener('change', function (event) {
+        actualizarFila(event);
+    });
 
-            // Lógica para caja de 1k
-            if (medidaSeleccionada === 'caja1K') {
-                const cantidadPiezas = 40; // 40 piezas por caja de 1k
-                const total = cantidadPiezas * precioUnitario * medidaIngresada;
-                cellTotal.textContent = total.toFixed(2);
-            }
-
-            // Lógica para caja de 1/2k
-            else if (medidaSeleccionada === 'cajaMedioK') {
-                const cantidadPiezas = 20; // 20 piezas por caja de 1/2k
-                const total = cantidadPiezas * precioUnitario * medidaIngresada;
-                cellTotal.textContent = total.toFixed(2);
-            }
-
-            // Lógica para medida por pieza
-else if (medidaSeleccionada === 'pieza') {
-    const total = medidaIngresada * precioUnitario;
-    cellTotal.textContent = total.toFixed(2);
-
+    inputDinero.addEventListener('change', function (event) {
+        actualizarFila(event);
+    });
     // No recorras las filas y agregues al arreglo aquí, sino en otro lugar donde sea apropiado.
 }
-
+let totalPiezas = 0;
 // Luego, en otro lugar apropiado de tu código, recorre las filas y agrega los valores al arreglo
-const tabla = document.getElementById('tblProductos');
-const filas = tabla.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-datosFilas = [];
+function actualizarFila(event) {
+    const tabla = document.getElementById('tblProductos');
+    const filas = tabla.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
 
-// Iterar sobre cada fila
-for (let i = 0; i < filas.length; i++) {
-    const fila = filas[i];
+    for (let i = 0; i < filas.length; i++) {
+        const fila = filas[i];
 
-    const valorInput = fila.querySelector('.input-medida').value;
-    const valorTotal = fila.getElementsByTagName('td')[3].textContent;
-    const valorId = fila.querySelector('.input-medida').getAttribute('data-id-producto');
+        // Obtener valores de los inputs de la fila actual
+        const valorPieza = parseFloat(fila.querySelector('#inputPiezas').value) || 0;
+        const valorCaja = parseFloat(fila.querySelector('#inputCaja').value) || 0;
+        const valorGramos = parseFloat(fila.querySelector('#inputGramos').value) || 0;
+        const valorDinero = parseFloat(fila.querySelector('#inputDinero').value) || 0;
 
-    // Crear un objeto con los valores y agregarlo al array
-    datosFilas.push({
-        cantidad: valorInput,
-        subtotal: valorTotal,
-        id:valorId
-    });
+        // Convertir todas las medidas a piezas
+        const piezasDesdeCaja = valorCaja * 40; // Reemplaza factorConversionCajaAPiezas por el valor de conversión
+        const piezasDesdeGramos = Math.floor(valorGramos / 25); // Redondear hacia abajo para obtener un número entero
+        const precioVentaPorPieza = parseFloat(fila.getElementsByTagName('td')[5].textContent) || 0;
+        const piezasDesdeDinero = Math.floor(valorDinero / precioVentaPorPieza); // Redondear hacia abajo para obtener un número entero
+
+        // Sumar todas las cantidades convertidas a piezas
+        const totalEnPiezas = valorPieza + piezasDesdeCaja + piezasDesdeGramos + piezasDesdeDinero;
+        const total = totalEnPiezas * precioVentaPorPieza;
+
+        // Actualizar los datos en el array datosFilas
+        datosFilas[i] = {
+            cantidad: {
+                piezas: totalEnPiezas // No se necesitan decimales para piezas
+            },
+            subtotal: total.toFixed(2),
+            id: fila.querySelector('.input-medida').getAttribute('data-id-producto')
+                    // ... otros valores actualizados
+        };
+
+        // Actualizar el subtotal en la tabla
+        const celdaSubtotal = fila.getElementsByTagName('td')[6]; // Índice 6 para la columna "Subtotal"
+        celdaSubtotal.textContent = total.toFixed(2);
+    }
+
+    // Mostrar los datos y llamar a las funciones necesarias después de la actualización
+    console.log('datosFilas:', datosFilas);
+    calcularTotal();
+    mostrarTotal();
 }
 
-console.log(datosFilas);
 
-            
-        } else {
-            cellTotal.textContent = 'Error'; // Mostrar un mensaje de error si la medida no es un número válido
-        }
 
-        calcularTotal();
-        mostrarTotal();
-    });
+
+
+
+function calcularTotalPiezas() {
+    const tabla = document.getElementById('tblProductos');
+    const filas = tabla.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+    // Reiniciar totalPiezas antes de calcular
+    totalPiezas = 0;
+
+    for (let i = 0; i < filas.length; i++) {
+        const fila = filas[i];
+        const valorPiezas = parseFloat(fila.querySelector('#inputPiezas').value) || 0;
+        const valorCaja = parseFloat(fila.querySelector('#inputCaja').value) || 0;
+        const valorGramos = parseFloat(fila.querySelector('#inputGramos').value) || 0;
+        const valorDinero = parseFloat(fila.querySelector('#inputDinero').value) || 0;
+
+        totalPiezas += valorPiezas + valorCaja + valorGramos + valorDinero;
+    }
+
+    console.log('Total de piezas:', totalPiezas);
+
+    // Devolver totalPiezas al final de la función
+    return totalPiezas;
 }
+
 
 export function mostrarImg(base64data) {
     const imagen = document.createElement('img');
@@ -210,7 +265,7 @@ function calcularTotal() {
     let sumaTotal = 0;
 
     for (let i = 0; i < filas.length; i++) {
-        const celdaTotal = filas[i].getElementsByTagName('td')[3]; // Índice 3 para la columna "Total"
+        const celdaTotal = filas[i].getElementsByTagName('td')[6]; // Índice 3 para la columna "Total"
         const valorTotal = parseFloat(celdaTotal.textContent);
 
         if (!isNaN(valorTotal)) {
@@ -228,85 +283,11 @@ function mostrarTotal() {
 }
 
 
-// Función para obtener la cantidad de una galleta seleccionada
-function obtenerCantidadDeGalletaSeleccionada() {
-    const inputMedida = document.querySelector('.fila-seleccionada .input-medida');
-    // Supongamos que el input para la medida está dentro de la fila seleccionada y tiene una clase 'input-medida'
-
-    if (inputMedida) {
-        const cantidad = parseFloat(inputMedida.value);
-        return isNaN(cantidad) ? 0 : cantidad; // Si el valor no es un número válido, devuelve 0
-    }
-
-    return 0; // Si no se encuentra el elemento, devuelve 0 como cantidad predeterminada
-}
-
-
-
-
-// Función para obtener el subtotal de una galleta seleccionada
-function obtenerSubtotalDeGalletaSeleccionada() {
-    const filaSeleccionada = document.querySelector('.fila-seleccionada'); // Obtener la fila seleccionada
-
-    if (filaSeleccionada) {
-        const cellTotal = filaSeleccionada.querySelector('td:nth-child(4)'); // Suponiendo que el subtotal está en la cuarta celda (índice 3)
-        if (cellTotal) {
-            const subtotal = parseFloat(cellTotal.textContent);
-            console.log("SubIN"+subtotal); // Mover esta línea antes del return
-            return isNaN(subtotal) ? 0 : subtotal; // Si el valor no es un número válido, devuelve 0
-        }
-    }
-
-    return 0; // Si no se encuentra el elemento o la fila seleccionada, devuelve 0 como subtotal predeterminado
-}
-
-function obtenerIdProductoDeGalletaSeleccionada() {
-    const filaSeleccionada = document.querySelector('.fila-seleccionada'); // Clase para identificar la fila seleccionada
-
-    if (filaSeleccionada) {
-        const idProducto = filaSeleccionada.getAttribute('data-id');
-        return idProducto ? parseInt(idProducto) : 0; // Si hay un id válido, conviértelo a entero
-    }
-
-    return 0; // Si no se encuentra la fila, devuelve 0 como ID predeterminado
-}
-
-
-
-function obtenerIdMedidaDeGalletaSeleccionada() {
-    const selectMedida = document.getElementById('txtMedida'); // Obtener el elemento select para la medida
-
-    if (selectMedida) {
-        const opcionSeleccionada = selectMedida.value; // Obtener el valor de la opción seleccionada
-
-        // Asignar el ID según la opción seleccionada
-        let idMedida;
-        switch (opcionSeleccionada) {
-            case 'pieza':
-                idMedida = 1; // ID para la opción de pieza
-                break;
-            case 'caja1K':
-                idMedida = 3; // ID para la opción de caja de 1K
-                break;
-            case 'cajaMedioK':
-                idMedida = 3; // ID para la opción de caja de 1/2K (en este caso, también usamos el ID 3)
-                break;
-            default:
-                idMedida = 0; // En caso de que no se encuentre ninguna opción válida
-                break;
-        }
-
-        return idMedida;
-    }
-
-    return 0; // Si no se encuentra el elemento, devuelve 0 como ID de medida predeterminado
-}
-
 
 export function guardarVenta() {
     let datos = null;
     let params = null;
-    
+
     const totalVenta = calcularTotal();
 
     var fecha = new Date();
@@ -314,7 +295,7 @@ export function guardarVenta() {
     var mes = fecha.getMonth() + 1;
     var anio = fecha.getFullYear();
 
-// Asegurar que el día y el mes tengan dos dígitos
+    // Asegurar que el día y el mes tengan dos dígitos
     var diaFormateado = dia < 10 ? '0' + dia : dia;
     var mesFormateado = mes < 10 ? '0' + mes : mes;
 
@@ -340,64 +321,87 @@ export function guardarVenta() {
         },
         body: paramsVenta
     })
-    .then(response => {
-        return response.json();
-    })
-    .then(function(data) {
-        // Verificar el éxito de la operación y proceder con el detalle de venta
-        if (data.idVenta) {
+            .then(response => {
+                return response.json();
+            })
+            .then(function (data) {
+                // Verificar el éxito de la operación y proceder con el detalle de venta
+                if (data.idVenta) {
                     console.log(data);
-            // Crear objeto con los datos del detalle de venta
-                    console.log("DatosFilas"+datosFilas);
-                for (var i = 0; i < datosFilas.length; i++) {  
-                    console.log("DatosFilasIn"+datosFilas[i]);
-                    let detalleVenta = {
-                    cantidad: parseFloat(datosFilas[i]['cantidad']),
-                    subtotal: parseFloat(datosFilas[i]['subtotal']),
-                    venta:{
-                    idVenta: data.idVenta},
-                    producto:{
-                    idProducto: parseInt(datosFilas[i]['id'])},
-                    medida:{
-                    idMedida: obtenerIdMedidaDeGalletaSeleccionada()}
+                    // Crear objeto con los datos del detalle de venta
+                    console.log("DatosFilas" + datosFilas);
 
-                    // Otras propiedades del detalle de venta...
-                };
+                    let detalleVentaExitoso = true; // Bandera para controlar si el detalle de venta se guardó exitosamente
 
-                let datosDetalleVenta = {
-                    datosDetalleVenta: JSON.stringify(detalleVenta)
-                };
+                    for (var i = 0; i < datosFilas.length; i++) {
+                        console.log("DatosFilasIn" + datosFilas[i]);
+                        let detalleVenta = {
+                            cantidad: parseInt(datosFilas[i].cantidad.piezas),
+                            subtotal: parseFloat(datosFilas[i]['subtotal']),
+                            venta: {
+                                idVenta: data.idVenta
+                            },
+                            producto: {
+                                idProducto: parseInt(datosFilas[i]['id'])
+                            },
+                            medida: {
+                                idMedida: 1
+                            }
+                            // Otras propiedades del detalle de venta...
+                        };
 
-                let paramsDetalleVenta = new URLSearchParams(datosDetalleVenta);
+                        let datosDetalleVenta = {
+                            datosDetalleVenta: JSON.stringify(detalleVenta)
+                        };
 
-                // Enviar la solicitud para guardar el detalle de venta
-                fetch("../../api/detalleventa/save", {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-                    },
-                    body: paramsDetalleVenta
-                })
-                .then(response => {
-                    return response.json();
-                })
-                .then(function(dataDetalle) {
-                    // Manejar la respuesta del servidor después de insertar el detalle de venta
-                    console.log(dataDetalle);
-                     Swal.fire('', 'Compra realizada correctamente', 'success');
-                limpiarTabla();
-                getAll();
-                });
+                        let paramsDetalleVenta = new URLSearchParams(datosDetalleVenta);
+
+                        // Enviar la solicitud para guardar el detalle de venta
+                        fetch("../../api/detalleventa/save", {
+                            method: "POST",
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                            },
+                            body: paramsDetalleVenta
+                        })
+                                .then(response => {
+                                    return response.json();
+                                })
+                                .then(function (dataDetalle) {
+                                    if (!dataDetalle.idDetalleVenta) {
+                                        detalleVentaExitoso = false; // Si falla el detalle de venta, cambia la bandera a false
+                                        if (dataDetalle.exception === "java.lang.Exception: No hay suficientes existencias para la venta.") {
+                                            // Mostrar un mensaje al usuario indicando que no hay suficientes existencias para la venta
+                                            Swal.fire('', 'No hay suficientes existencias para completar la venta.', 'warning');
+                                        } else {
+                                            // Si la excepción no es por falta de existencias, mostrar un mensaje genérico de error
+                                            Swal.fire('', 'Error al realizar la venta', 'error');
+                                        }
+                                    } else {
+                                        console.log(dataDetalle);
+                                        Swal.fire('', 'Compra realizada correctamente', 'success');
+                                        limpiarTabla();
+                                        getAll();
+                                    }
+                                });
+                    }
+
+                    // Verifica la bandera detalleVentaExitoso antes de guardar la venta principal
+                    if (!detalleVentaExitoso) {
+                        console.log("No se puede guardar la venta principal porque el detalle de venta falló");
+                        return;
+                    }
+
+                    // Código para guardar la venta principal
+                    // ... (código para guardar la venta principal)
+
+                } else {
+                    // Manejar el caso en que la venta principal no se haya guardado correctamente
+                    console.log("Error al guardar la venta principal");
                 }
-            
-           
-        } else {
-            // Manejar el caso en que la venta principal no se haya guardado correctamente
-            console.log("Error al guardar la venta principal");
-        }
-        
-    });
+            });
 }
+
 
 export function limpiarTabla() {
     const tabla = document.getElementById('tblProductos').getElementsByTagName('tbody')[0];
