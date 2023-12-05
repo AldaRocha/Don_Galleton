@@ -540,7 +540,7 @@ export function llenarTablaIngredientes() {
     
     console.log(arrayIngredientes);
     var tbody = $('#tbodyIngredientes');
-    tbody.empty(); // Vacía el tbody actual
+    //tbody.empty(); // Vacía el tbody actual
 
     var fila = $('<tr>');
         fila.append('<td>' + ing + '</td>');
