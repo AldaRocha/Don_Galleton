@@ -49,7 +49,8 @@ public class ControllerMateriaPrima {
     
     public void eliminarMateriaPrima(int idMateriaPrima) throws Exception {
         
-    String sql = "{call desActivarMateriaPrima(?)}";
+//    String sql = "{call desActivarMateriaPrima(?)}";
+        String sql = "DELETE FROM materia_prima WHERE idMateriaPrima = ?;";
     
     ConexionMySQL connMySQL = new ConexionMySQL();
 
@@ -115,7 +116,8 @@ public class ControllerMateriaPrima {
     }
 
     public List<MateriaPrima> getAll(String filtro) throws Exception {
-        String sql = "SELECT * FROM v_materia_prima WHERE estatus = 1;";
+//        String sql = "SELECT * FROM v_materia_prima WHERE estatus = 1;";
+          String sql = "SELECT * FROM v_materia_prima";
 
         ConexionMySQL connMySQL = new ConexionMySQL();
 

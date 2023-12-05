@@ -60,19 +60,20 @@ export function guardarMateriaPrima() {
 
                     }
 
-                    Swal.fire('', 'Galleta registrada correctamente', 'success');
+                    Swal.fire('', 'Materia Prima registrada correctamente', 'success');
                     getAll();
                     clean();
+                    //$('#modalMaterialPrima').modal('hide');
+                    $('#modalMaterialPrima .btn-secondary').click();
 
                 });
     } else {
-        console.log("EDITAR");
         let idMaterial = parseInt(document.getElementById("txtIdMateriaEditar").value);
         materiaPrima.idMateriaPrima = idMaterial;
 
         materiaPrima.nombreMateria = document.getElementById("txtNobreMaterialEditar").value;
-        materiaPrima.fechaCompra = document.getElementById("txtFechaCompraMaterialEditar").value;
-        materiaPrima.fechaVencimiento = document.getElementById("txtFechaVenciMaterialEditar").value;
+        materiaPrima.fechaCompra = cambiarFormatoFecha(document.getElementById("txtFechaCompraMaterialEditar").value);
+        materiaPrima.fechaVencimiento = cambiarFormatoFecha(document.getElementById("txtFechaVenciMaterialEditar").value);
         materiaPrima.cantidadExistentes = document.getElementById("txtCantidadMaterialEditar").value;
         materiaPrima.precioCompra = document.getElementById("txtPrecioCompraEditar").value;
         materiaPrima.porcentaje = document.getElementById("txtPorcentajeMaterialEditar").value;
@@ -115,11 +116,11 @@ export function guardarMateriaPrima() {
 
                     }
 
-                    Swal.fire('', 'Galleta registrada correctamente', 'success');
+                    Swal.fire('', 'Materia Prima actualizada correctamente', 'success');
                     getAll();
                     clean();
-                    $('#modalMaterialPrima').modal('hide');
-                    $('#modalMateriaEditar').modal('hide');
+                    //$('#modalMateriaEditar').modal('hide');
+                    $('#modalMateriaEditar .btn-secondary').click();
                 });
     }
 }
@@ -175,6 +176,19 @@ export function cargarTabla(data) {
         // Llamar a la función editarProducto con los datos del producto seleccionado
         editarProducto(materia);
     });
+    
+//    $(document).ready(function() {
+//    // Initialize DataTable
+//    $('#tblMateria').DataTable();
+//
+//    // Check if DataTable exists
+//    if ($.fn.DataTable.isDataTable('#tblMateria')) {
+//        // Destroy DataTable and empty tbody
+//        $('#tblMateria').DataTable().destroy();
+//        $('#tblMateria tbody').empty();
+//    }
+//});
+    
     // Destruye la tabla
     if ($.fn.DataTable.isDataTable('#tblMateria')) {
         $('#tblMateria').DataTable().destroy();
@@ -200,7 +214,7 @@ export function cargarTabla(data) {
         <td>${fechaVencimientoSubstring}</td>
         <td>${porcentajeConSigno}</td>
         <td><button data-idmateriaprima="${data[i]['idMateriaPrima']}" class="btnEliminar"><i class="fa-solid fa-trash" style="color: #c12525;"></i></button></td>
-        <td><button data-idmateriaprima="${data[i]['idMateriaPrima']}" class="btnEditar"><i class="fa-solid fa-pen-to-square" style="color: #57351f;"></i></button></td>
+        <td><button data-idmateriaprima="${data[i]['idMateriaPrima']}" id="btnEditar" class="btnEditar"><i class="fa-solid fa-pen-to-square" style="color: #57351f;"></i></button></td>
     </tr>`;
 
         $('#tblMateria tbody').append(fila);
@@ -239,9 +253,6 @@ export function cargarTabla(data) {
         retrieve: true
     });
 
-    $('#agregarGalletasHorneadas').on('click', 'button', function () {
-        $('#modalProductos').modal('show');
-    });
 
     $('#agregarMaterialPrima').on('click', 'button', function () {
         $('#modalMaterialPrima').modal('show');
@@ -303,7 +314,7 @@ export function deleteProducto() {
 
             Swal.fire({
                 title: "¡Eliminado!",
-                text: "Tu galleta ha sido eliminada.",
+                text: "Tu materia prima ha sido eliminada.",
                 icon: "success"
             });
             getAll();
