@@ -1,4 +1,7 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package org.utl.idgs.rest;
 
 import com.google.gson.Gson;
@@ -13,39 +16,39 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
-import org.utl.idgs.core.ControllerProducto;
+import org.utl.idgs.core.ControllerDetalleVenta;
 import org.utl.idgs.core.ControllerVenta;
-import org.utl.idgs.model.Producto;
+import org.utl.idgs.model.DetalleVenta;
 import org.utl.idgs.model.Venta;
 
 /**
  *
- * @author Alda
+ * @author DiegoJC
  */
-@Path("venta")
-public class RESTVenta {
+@Path("detalleventa")
+public class RESTDetalleVenta {
     @Path("save")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response save(@FormParam("datosVenta") @DefaultValue("") String datosVenta)
+    public Response save(@FormParam("datosDetalleVenta") @DefaultValue("") String datosDetalleVenta)
     {
         String out = null;
         Gson gson = new Gson();
-        Venta ven = null;
-        ControllerVenta cv = new ControllerVenta();
+        DetalleVenta deven = null;
+        ControllerDetalleVenta cdv = new ControllerDetalleVenta();
         
         try 
         {
-            ven = gson.fromJson(datosVenta, Venta.class);
-            if (ven.getIdVenta()== 0)
+            deven = gson.fromJson(datosDetalleVenta, DetalleVenta.class);
+            if (deven.getIdDetalleVenta()== 0)
             {
-                cv.insertarVenta(ven);
+                cdv.insertarDetalleVenta(deven);
             }
             else
             {
-                cv.actualizarVenta(ven);
+                cdv.actualizarDetalleVenta(deven);
             }
-            out = gson.toJson(ven);
+            out = gson.toJson(deven);
         }
         catch (JsonParseException jpe)
         {
@@ -70,12 +73,12 @@ public class RESTVenta {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAll(@QueryParam("filtro") @DefaultValue("") String filtro) {
         String out = null;
-        ControllerVenta cv = null;
-        List<Venta> v = null;
+        ControllerDetalleVenta cdv = null;
+        List<DetalleVenta> dv = null;
         try {
-            cv = new ControllerVenta();
-            v = cv.getAll(filtro);
-            out = new Gson().toJson(v);
+            cdv = new ControllerDetalleVenta();
+            dv = cdv.getAll(filtro);
+            out = new Gson().toJson(dv);
         } catch (Exception e) {
             e.printStackTrace();
             out = "{\"exception\":\"Error interno del servidor.\"}";

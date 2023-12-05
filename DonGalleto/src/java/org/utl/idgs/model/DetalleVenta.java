@@ -7,13 +7,13 @@ package org.utl.idgs.model;
  */
 public class DetalleVenta {
     private int idDetalleVenta;
-    private float cantidad;
-    private float subtotal;
+    private double cantidad;
+    private double subtotal;
     private Venta venta;
     private Producto producto;
     private Medida medida;
 
-    public DetalleVenta(int idDetalleVenta, float cantidad, float subtotal, Venta venta, Producto producto, Medida medida) {
+    public DetalleVenta(int idDetalleVenta, double cantidad, double subtotal, Venta venta, Producto producto, Medida medida) {
         this.idDetalleVenta = idDetalleVenta;
         this.cantidad = cantidad;
         this.subtotal = subtotal;
@@ -33,7 +33,7 @@ public class DetalleVenta {
         this.idDetalleVenta = idDetalleVenta;
     }
 
-    public float getCantidad() {
+    public double getCantidad() {
         return cantidad;
     }
 
@@ -41,7 +41,7 @@ public class DetalleVenta {
         this.cantidad = cantidad;
     }
 
-    public float getSubtotal() {
+    public double getSubtotal() {
         return subtotal;
     }
 
