@@ -496,7 +496,7 @@ export function cargarTabla(data) {
                 first: "Primero",
                 last: "Ultimo",
                 next: "Siguiente",
-                previous: "Anterior",
+                previous: "Anterior"
             }
         },
 

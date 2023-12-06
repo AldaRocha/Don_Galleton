@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.utl.idgs.connection.ConexionMySQL;
 import org.utl.idgs.model.Medida;
+import org.utl.idgs.model.Movimiento;
 import org.utl.idgs.model.Producto;
 import org.utl.idgs.model.Venta;
 
@@ -22,6 +23,9 @@ public class ControllerVenta {
         String sql = "{call insertarVenta(?, ?, ?)}";
        
         int idVentaGenerado = -1;
+        
+        Movimiento m = new Movimiento();
+        ControllerMovimiento cm = new ControllerMovimiento();
         ConexionMySQL connMySQL = new ConexionMySQL();
         Connection conn = connMySQL.open();
 
@@ -33,6 +37,9 @@ public class ControllerVenta {
         cstmt.executeUpdate();
         idVentaGenerado = cstmt.getInt(3);
         v.setIdVenta(idVentaGenerado);
+        
+        m.setVenta(v);
+        cm.insertarMovimientoVenta(m);
 
         cstmt.close();
         connMySQL.close();
@@ -43,6 +50,8 @@ public class ControllerVenta {
      public void actualizarVenta(Venta v) throws Exception {
         String sql = "{call actualizarVenta(?, ?,?)}"; 
 
+        Movimiento m = new Movimiento();
+        ControllerMovimiento cm = new ControllerMovimiento();
         ConexionMySQL connMySQL = new ConexionMySQL();
         Connection conn = connMySQL.open();
 
@@ -55,6 +64,9 @@ public class ControllerVenta {
         cstmt.setInt(1, v.getIdVenta());
 
         cstmt.executeUpdate();
+        
+        m.setVenta(v);
+        cm.actualizarMovimientoIngreso(m);
 
         cstmt.close();
         connMySQL.close();

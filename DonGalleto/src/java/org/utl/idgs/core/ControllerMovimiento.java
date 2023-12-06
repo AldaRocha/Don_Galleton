@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.utl.idgs.model.MateriaPrima;
 import org.utl.idgs.model.Medida;
+import org.utl.idgs.model.Resultado;
 
 /**
  *
@@ -21,7 +22,7 @@ import org.utl.idgs.model.Medida;
  */
 public class ControllerMovimiento {
     public int insertarMovimientoVenta(Movimiento m) throws SQLException{
-        String query = "{CALL insertarMovimiento(?, ?, ?, ?, ?, ?)}";
+        String query = "{CALL insertarMovimientoIngreso(?, ?, ?, ?, ?)}";
         
         int idMovimientoGenerado = -1;
         
@@ -35,13 +36,12 @@ public class ControllerMovimiento {
         clblsmt.setString(2, "Ingreso");
         clblsmt.setDouble(3, m.getVenta().getTotal());
         clblsmt.setInt(4, m.getVenta().getIdVenta());
-        clblsmt.setInt(5, m.getMateriaPrima().getIdMateriaPrima());
         
-        clblsmt.registerOutParameter(6, Types.INTEGER);
+        clblsmt.registerOutParameter(5, Types.INTEGER);
         
         clblsmt.executeUpdate();
         
-        idMovimientoGenerado = clblsmt.getInt(6);
+        idMovimientoGenerado = clblsmt.getInt(5);
         m.setIdMovimiento(idMovimientoGenerado);
         
         clblsmt.close();
@@ -51,7 +51,7 @@ public class ControllerMovimiento {
     }
     
     public int insertarMovimientoCompra(Movimiento m) throws SQLException{
-        String query = "{CALL insertarMovimiento(?, ?, ?, ?, ?, ?)}";
+        String query = "{CALL insertarMovimientoEgreso(?, ?, ?, ?, ?)}";
         
         int idMovimientoGenerado = -1;
         
@@ -61,17 +61,16 @@ public class ControllerMovimiento {
         
         CallableStatement clblsmt = conn.prepareCall(query);
         
-        clblsmt.setString(1, m.getVenta().getFechaVenta());
+        clblsmt.setString(1, m.getMateriaPrima().getFechaCompra());
         clblsmt.setString(2, "Egreso");
-        clblsmt.setDouble(3, m.getVenta().getTotal());
-        clblsmt.setInt(4, m.getVenta().getIdVenta());
-        clblsmt.setInt(5, m.getMateriaPrima().getIdMateriaPrima());
+        clblsmt.setDouble(3, m.getMateriaPrima().getPrecioCompra());
+        clblsmt.setInt(4, m.getMateriaPrima().getIdMateriaPrima());
         
-        clblsmt.registerOutParameter(6, Types.INTEGER);
+        clblsmt.registerOutParameter(5, Types.INTEGER);
         
         clblsmt.executeUpdate();
         
-        idMovimientoGenerado = clblsmt.getInt(6);
+        idMovimientoGenerado = clblsmt.getInt(5);
         m.setIdMovimiento(idMovimientoGenerado);
         
         clblsmt.close();
@@ -81,7 +80,7 @@ public class ControllerMovimiento {
     }
     
     public boolean actualizarMovimientoIngreso(Movimiento m) throws Exception{
-        String query = "{CALL actualizarMovimientoIngreso(?, ?, ?, ?, ?)}";
+        String query = "{CALL actualizarMovimientoIngreso(?, ?, ?, ?)}";
         boolean exito = true;
         
         try{
@@ -92,10 +91,9 @@ public class ControllerMovimiento {
             CallableStatement clblsmt = conn.prepareCall(query);
             
             clblsmt.setString(1, m.getVenta().getFechaVenta());
-            clblsmt.setString(2, m.getTipoMovimiento());
+            clblsmt.setString(2, "Ingreso");
             clblsmt.setDouble(3, m.getVenta().getTotal());
             clblsmt.setInt(4, m.getVenta().getIdVenta());
-            clblsmt.setInt(5, m.getMateriaPrima().getIdMateriaPrima());
             
             clblsmt.executeUpdate();
             
@@ -108,7 +106,7 @@ public class ControllerMovimiento {
     }
     
     public boolean actualizarMovimientoEgreso(Movimiento m) throws Exception{
-        String query = "{CALL actualizarMovimientoEgreso(?, ?, ?, ?, ?)}";
+        String query = "{CALL actualizarMovimientoEgreso(?, ?, ?, ?)}";
         boolean exito = true;
         
         try{
@@ -119,10 +117,9 @@ public class ControllerMovimiento {
             CallableStatement clblsmt = conn.prepareCall(query);
             
             clblsmt.setString(1, m.getVenta().getFechaVenta());
-            clblsmt.setString(2, m.getTipoMovimiento());
+            clblsmt.setString(2, "Egreso");
             clblsmt.setDouble(3, m.getVenta().getTotal());
-            clblsmt.setInt(4, m.getVenta().getIdVenta());
-            clblsmt.setInt(5, m.getMateriaPrima().getIdMateriaPrima());
+            clblsmt.setInt(4, m.getMateriaPrima().getIdMateriaPrima());
             
             clblsmt.executeUpdate();
             
@@ -136,7 +133,7 @@ public class ControllerMovimiento {
     
     public List<Movimiento> getMovimientos(String desde, String hasta) throws SQLException{
         String query = "SELECT * FROM v_movimiento WHERE fechaMovimiento BETWEEN STR_TO_DATE(" + desde + ", '%d/%m/%Y') AND STR_TO_DATE(" + hasta + ", '%d/%m/%Y');";
-        System.out.println(query);
+
         ConexionMySQL connMySQL = new ConexionMySQL();
         
         Connection conn = connMySQL.open();
@@ -190,5 +187,63 @@ public class ControllerMovimiento {
         m.setMateriaPrima(mp);
         
         return m;
+    }
+    
+    public Resultado getMateriaMasComprada() throws SQLException{
+        String query = "";
+
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        
+        Connection conn = connMySQL.open();
+        
+        Statement stmt = (Statement)conn.createStatement();
+        
+        ResultSet rs = null;
+        
+        rs = stmt.executeQuery(query);
+        
+        Resultado r = new Resultado();
+        
+        if(rs.next())
+            r = fillMas(rs);
+        
+        rs.close();
+        stmt.close();
+        connMySQL.close();
+        
+        return r;
+    }
+    
+    public Resultado getProductoMasVendido() throws SQLException{
+        String query = "";
+
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        
+        Connection conn = connMySQL.open();
+        
+        Statement stmt = (Statement)conn.createStatement();
+        
+        ResultSet rs = null;
+        
+        rs = stmt.executeQuery(query);
+        
+        Resultado r = new Resultado();
+        
+        if(rs.next())
+            r = fillMas(rs);
+        
+        rs.close();
+        stmt.close();
+        connMySQL.close();
+        
+        return r;
+    }
+    
+    private Resultado fillMas(ResultSet rs) throws SQLException{
+        Resultado r = new Resultado();
+        
+        r.setNombre(rs.getString("mas"));
+        
+        return r;
     }
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import org.utl.idgs.connection.ConexionMySQL;
 import org.utl.idgs.model.MateriaPrima;
 import org.utl.idgs.model.Medida;
+import org.utl.idgs.model.Movimiento;
 import org.utl.idgs.model.Producto;
 
 /**
@@ -24,7 +25,11 @@ public class ControllerMateriaPrima {
                 + "?, ?, ?, ?)}";
 
         int idMateriaGenerado = -1;
+        
+        Movimiento m = new Movimiento();
+        ControllerMovimiento cm = new ControllerMovimiento();
         ConexionMySQL connMySQL = new ConexionMySQL();
+        
         Connection conn = connMySQL.open();
 
         CallableStatement cstmt = conn.prepareCall(sql);
@@ -40,6 +45,9 @@ public class ControllerMateriaPrima {
         cstmt.executeUpdate();
         idMateriaGenerado = cstmt.getInt(8);
         mp.setIdMateriaPrima(idMateriaGenerado);
+        
+        m.setMateriaPrima(mp);
+        cm.insertarMovimientoCompra(m);
 
         cstmt.close();
         connMySQL.close();
@@ -48,21 +56,25 @@ public class ControllerMateriaPrima {
     }
     
     public void eliminarMateriaPrima(int idMateriaPrima) throws Exception {
-        
-//    String sql = "{call desActivarMateriaPrima(?)}";
+        String query = "DELETE FROM movimiento WHERE idMateriaPrima = ?";
         String sql = "DELETE FROM materia_prima WHERE idMateriaPrima = ?;";
     
-    ConexionMySQL connMySQL = new ConexionMySQL();
+        ConexionMySQL connMySQL = new ConexionMySQL();
 
-    Connection conn = connMySQL.open();
-    CallableStatement cstmt = conn.prepareCall(sql);
+        Connection conn = connMySQL.open();
+        CallableStatement cstmt1 = conn.prepareCall(query);
         
-    cstmt.setInt(1, idMateriaPrima);
-    cstmt.executeUpdate();
+        cstmt1.setInt(1, idMateriaPrima);
+        cstmt1.executeUpdate();
+        
+        CallableStatement cstmt = conn.prepareCall(sql);
+ 
+        cstmt.setInt(1, idMateriaPrima);
+        cstmt.executeUpdate();
 
-    cstmt.close();
-    connMySQL.close();
-
+        cstmt1.close();
+        cstmt.close();
+        connMySQL.close();
     }
 
     public void actualizarMateriaPrima(MateriaPrima mp) throws Exception {
@@ -70,6 +82,8 @@ public class ControllerMateriaPrima {
                 + "?, ?, "
                 + "?, ?, ?, ?)}";
 
+        Movimiento m = new Movimiento();
+        ControllerMovimiento cm = new ControllerMovimiento();
         ConexionMySQL connMySQL = new ConexionMySQL();
         Connection conn = connMySQL.open();
 
@@ -85,6 +99,9 @@ public class ControllerMateriaPrima {
         cstmt.setInt(8, mp.getMedida().getIdMedida());
 
         cstmt.executeUpdate();
+        
+        m.setMateriaPrima(mp);
+        cm.actualizarMovimientoEgreso(m);
 
         cstmt.close();
         connMySQL.close();

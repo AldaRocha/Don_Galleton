@@ -47,7 +47,6 @@ public class RESTMovimiento {
                   """;
             out = String.format(out, ex.getMessage());
         }
-        System.out.println(out);
         return Response.status(Response.Status.OK).entity(out).build();
     }
 }
