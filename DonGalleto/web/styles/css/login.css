@@ -24,6 +24,12 @@ body{
     padding: 20px;
     border-radius: 12px;
     background: #90848C;
+
+    backdrop-filter: blur(15px) !important;
+    background: rgba;
+    background-color: rgba(223, 171, 149, 0.4);
+    border-radius: 30px;
+    border: 3px solid rgba(255, 255, 255, 0.2);
 }
 
 .center-image{
