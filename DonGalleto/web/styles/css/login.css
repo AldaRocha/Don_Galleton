@@ -15,7 +15,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #F9E79F;
+    background: url("../../resources/fondoGalletas.png");
 }
 
 .login{
