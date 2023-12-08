@@ -3,13 +3,24 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/src/java/org/utl/idgs/core/ControllerMovimiento.java</file>
-            <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/web/modules/estadodecuenta/vista_estadodecuenta.html</file>
-            <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/src/java/org/utl/idgs/rest/RESTMovimiento.java</file>
             <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/src/java/org/utl/idgs/core/ControllerVenta.java</file>
-            <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/src/java/org/utl/idgs/core/ControllerMateriaPrima.java</file>
             <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/web/styles/css/mystyles.css</file>
+            <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/web/modules/estadodecuenta/estadodecuentaController.js</file>
+            <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/web/modules/producto/vista_producto.html</file>
+            <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/web/modules/estadodecuenta/vista_estadodecuenta.html</file>
+            <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/web/modules/puntodeventa/puntodeventaController.js</file>
+            <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/src/java/org/utl/idgs/rest/RESTMovimiento.java</file>
+            <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/nbproject/build-impl.xml</file>
+            <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/src/java/org/utl/idgs/core/ControllerMateriaPrima.java</file>
+            <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/src/java/org/utl/idgs/model/Movimiento.java</file>
+            <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/src/java/org/utl/idgs/core/ControllerMovimiento.java</file>
+            <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/src/java/org/utl/idgs/model/Usuario.java</file>
             <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/src/java/org/utl/idgs/model/Resultado.java</file>
+            <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/src/java/org/utl/idgs/model/CrearProducto.java</file>
+            <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/src/java/org/utl/idgs/model/Producto.java</file>
+            <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/src/java/org/utl/idgs/model/Medida.java</file>
+            <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/web/modules/main/mainController.js</file>
+            <file>file:/C:/Users/ALM-Francisco/Desktop/Tareas/DonGalletoProject/DonGalleto/web/modules/main/vista_main.html</file>
         </group>
     </open-files>
 </project-private>
