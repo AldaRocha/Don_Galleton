@@ -142,17 +142,24 @@ SELECT * FROM v_detalle_venta;
 
 -- INICIO PRUEBA DE PROCEDURES Y VISTAS E INSERTAR DATOS BASE EN TABLA MOVIMIENTO --
 
-CALL insertarMovimiento("14/11/2023", "Ingreso", 500, 1, NULL, @out1);
-CALL insertarMovimiento("20/10/2023", "Egreso", 500, NULL, 1, @out1);
+CALL insertarMovimientoIngreso("14/11/2023", "Ingreso", 500, 1, @out1);
+CALL insertarMovimientoEgreso("20/10/2023", "Egreso", 500, 1, @out1);
+CALL insertarMovimientoIngreso("01/10/2023", "Ingreso", 500, 1, @out1);
 
 SELECT * FROM movimiento;
 
-CALL actualizarMovimientoIngreso("14/11/2023", "Ingreso", 46, 1, NULL);
+CALL actualizarMovimientoIngreso("14/11/2023", "Ingreso", 46, 1);
 
 SELECT * FROM v_movimiento;
 
-CALL actualizarMovimientoEgreso("20/10/2023", "Egreso", 5.50, NULL, 1);
+CALL actualizarMovimientoEgreso("20/10/2023", "Egreso", 5.50, 1);
 
 SELECT * FROM movimiento;
+
+SELECT nombreMateria AS mas FROM (SELECT nombreMateria, SUM(cantidadExistentes) AS cantidad FROM materia_prima GROUP BY nombreMateria) subconsulta ORDER BY cantidad DESC LIMIT 1;
+
+SELECT * FROM materia_prima;
+
+SELECT nombreProducto AS mas FROM producto p INNER JOIN detalle_venta dv ON p.idProducto = dv.idProducto GROUP BY nombreProducto ORDER BY COUNT(*) DESC LIMIT 1;
 
 -- FIN DE PRUEBAS EN TABLA DETALLE MOVIMIENTO --

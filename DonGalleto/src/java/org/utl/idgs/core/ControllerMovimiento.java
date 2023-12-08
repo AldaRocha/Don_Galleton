@@ -190,7 +190,7 @@ public class ControllerMovimiento {
     }
     
     public Resultado getMateriaMasComprada() throws SQLException{
-        String query = "";
+        String query = "SELECT nombreMateria AS mas FROM (SELECT nombreMateria, SUM(cantidadExistentes) AS cantidad FROM materia_prima GROUP BY nombreMateria) subconsulta ORDER BY cantidad DESC LIMIT 1";
 
         ConexionMySQL connMySQL = new ConexionMySQL();
         
@@ -215,7 +215,7 @@ public class ControllerMovimiento {
     }
     
     public Resultado getProductoMasVendido() throws SQLException{
-        String query = "";
+        String query = "SELECT nombreProducto AS mas FROM producto p INNER JOIN detalle_venta dv ON p.idProducto = dv.idProducto GROUP BY nombreProducto ORDER BY COUNT(*) DESC LIMIT 1";
 
         ConexionMySQL connMySQL = new ConexionMySQL();
         

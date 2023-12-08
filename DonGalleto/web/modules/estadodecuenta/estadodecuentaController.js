@@ -1,10 +1,9 @@
 let movimientos = [];
 let total = 0;
 
-export function inicializar(){
-    cambiarPantalla(false);
-    traerMateriaMasComprada();
-    traerProductoMasVendido();
+export async function inicializar(){
+    await traerMateriaMasComprada();
+    await traerProductoMasVendido();
 }
 
 // Toda la funcionalidad del estado de cuenta
@@ -96,9 +95,8 @@ export function llenarTabla(data){
                 previous: "Anterior"
             }
         },
-
         "ordering": false,
-        retrieve: true 
+        retrieve: true
     });
     
     ocultarCargando();
@@ -193,14 +191,14 @@ export function filtrar(){
     }
 }
 
-export function traerMateriaMasComprada(){
+export async function traerMateriaMasComprada(){
     $.ajax({
         url: "../../api/movimiento/traerMateriaMasComprada",
         type: "GET",
         contentType: "application/x-www-form-urlencoded;charset=UTF-8",
         success: function (response){
-            let data = response;
-            
+            let data = JSON.parse(response);
+
             if(data.error){
                 Swal.fire('', data.error, 'warning');
                 ocultarCargando();
@@ -208,19 +206,19 @@ export function traerMateriaMasComprada(){
                 Swal.fire('', "Error interno del servidor. Intente mas tarde.", 'error');
                 ocultarCargando();
             } else{
-                document.getElementById("txtCompra").value(data.materiaMasComprada);
+                document.getElementById("txtCompra").value = data.nombre;
             }
         }
     });
 }
 
-export function traerProductoMasVendido(){
+export async function traerProductoMasVendido(){
     $.ajax({
         url: "../../api/movimiento/traerProductoMasVendido",
         type: "GET",
         contentType: "application/x-www-form-urlencoded;charset=UTF-8",
         success: function (response){
-            let data = response;
+            let data = JSON.parse(response);
             
             if(data.error){
                 Swal.fire('', data.error, 'warning');
@@ -229,9 +227,8 @@ export function traerProductoMasVendido(){
                 Swal.fire('', "Error interno del servidor. Intente mas tarde.", 'error');
                 ocultarCargando();
             } else{
-                document.getElementById("txtVenta").value(data.productoMasVendido);
+                document.getElementById("txtVenta").value = data.nombre;
             }
         }
     });
 }
-

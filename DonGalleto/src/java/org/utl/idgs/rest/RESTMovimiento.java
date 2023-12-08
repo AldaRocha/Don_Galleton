@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.utl.idgs.core.ControllerMovimiento;
 import org.utl.idgs.model.Movimiento;
+import org.utl.idgs.model.Resultado;
 
 /**
  *
@@ -40,6 +41,52 @@ public class RESTMovimiento {
                       {"error": "Debes llenar las fechas para realizar la busqueda."};
                       """;
             }
+        } catch(Exception ex){
+            ex.printStackTrace();
+            out = """
+                  {"exception": "%s"}
+                  """;
+            out = String.format(out, ex.getMessage());
+        }
+        return Response.status(Response.Status.OK).entity(out).build();
+    }
+    
+    @Path("traerMateriaMasComprada")
+    @Produces
+    @GET
+    public Response traerMateriaMasComprada(@QueryParam("nada") @DefaultValue("") String nada) throws Exception{
+        String out = null;
+        Gson gson = new Gson();
+        Resultado r = new Resultado();
+        ControllerMovimiento cm = new ControllerMovimiento();
+        
+        try{
+            r = cm.getMateriaMasComprada();
+            
+            out = gson.toJson(r);
+        } catch(Exception ex){
+            ex.printStackTrace();
+            out = """
+                  {"exception": "%s"}
+                  """;
+            out = String.format(out, ex.getMessage());
+        }
+        return Response.status(Response.Status.OK).entity(out).build();
+    }
+    
+    @Path("traerProductoMasVendido")
+    @Produces
+    @GET
+    public Response traerProductoMasVendido(@QueryParam("nada") @DefaultValue("") String nada) throws Exception{
+        String out = null;
+        Gson gson = new Gson();
+        Resultado r = new Resultado();
+        ControllerMovimiento cm = new ControllerMovimiento();
+        
+        try{
+            r = cm.getProductoMasVendido();
+            
+            out = gson.toJson(r);
         } catch(Exception ex){
             ex.printStackTrace();
             out = """
